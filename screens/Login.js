@@ -5,11 +5,14 @@ import { AuthContext } from '../Context/AuthContext';
 export default function LoginScreen() {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
-  const { setIsLoggedIn, logIn } = useContext(AuthContext);
+  const { setIsLoggedIn, logIn, createUser } = useContext(AuthContext);
 
   const LoginUser = () => {
-    //setIsLoggedIn(true);
     logIn(email, password);
+  };
+
+  const SignUpUser = () => {
+    createUser(email, password);
   };
 
   return (
@@ -35,7 +38,8 @@ export default function LoginScreen() {
           onChangeText={setPassword}
           style={styles.textInput}
         />
-        <Button title="Submit" onPress={LoginUser} />
+        <Button title="Login" onPress={LoginUser} />
+        <Button title="Sign up" onPress={SignUpUser} />
       </View>
     </View>
   );

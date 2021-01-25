@@ -5,7 +5,6 @@ import {
   ImageBackground,
   Modal,
   SafeAreaView,
-  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -14,13 +13,13 @@ import {
 import { AuthContext } from '../Context/AuthContext';
 
 const WorkoutItem = ({ itemTitle, workoutModal, itemImage }) => {
-  const { setIsLoggedIn } = useContext(AuthContext);
+  const { signOut } = useContext(AuthContext);
   var imageName = `${itemImage}`;
 
   return (
     <TouchableOpacity
       onLongPress={() => {
-        setIsLoggedIn(false);
+        signOut();
       }}
       onPress={() => {
         workoutModal(true);
