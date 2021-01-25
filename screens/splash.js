@@ -1,9 +1,9 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 
 export default function SplashScreen() {
   return (
-    <View>
+    <View style={styles.container}>
       <Text>This is the SplashScreen</Text>
     </View>
   );

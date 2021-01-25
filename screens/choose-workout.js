@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
   Button,
   FlatList,
@@ -11,14 +11,17 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { AuthContext } from '../Context/AuthContext';
 
-//emil
 const WorkoutItem = ({ itemTitle, workoutModal, itemImage }) => {
+  const { setIsLoggedIn } = useContext(AuthContext);
   var imageName = `${itemImage}`;
 
   return (
     <TouchableOpacity
-      onLongPress={() => {}}
+      onLongPress={() => {
+        setIsLoggedIn(false);
+      }}
       onPress={() => {
         workoutModal(true);
       }}
