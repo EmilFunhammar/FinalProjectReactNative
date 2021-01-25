@@ -88,7 +88,7 @@ const WorkoutsScrollView = () => {
   );
 };
 
-export default function App() {
+export default function Create_Workout() {
   return (
     <View style={{ ...styles.container, backgroundColor: 'white' }}>
       <WorkoutsScrollView />
