@@ -8,7 +8,7 @@ import 'firebase/storage';
 const firebaseConfig = {
   apiKey: 'AIzaSyAKPL25brdEyVf1QxIEgIaAnwSpgthhoyQ',
   authDomain: 'reactnativefinalprojectgymapp.firebaseapp.com',
-  //databaseURL: 'https:ReactNativeFinalProjectGymApp.firebaseio.com',
+  databaseURL: 'https:ReactNativeFinalProjectGymApp.firebaseio.com',
   projectId: 'reactnativefinalprojectgymapp',
   storageBucket: 'reactnativefinalprojectgymapp.appspot.com',
   messagingSenderId: '710813520216',
@@ -16,7 +16,8 @@ const firebaseConfig = {
 };
 
 if (!firebase.apps.length) {
-  const firebaseApp = firebase.initializeApp(firebaseConfig);
+  // const firebaseApp =
+  firebase.initializeApp(firebaseConfig);
 }
 
 export const auth = firebase.auth();
@@ -46,9 +47,10 @@ export function SaveUserWorkOut(userId, exercise, sets, reps) {
     .firestore()
     .collection('UserWorkouts')
     .doc(userId)
+    .collection('Workouts')
+    .doc('Exersices')
     .set(
       {
-        // merga
         userId: userId,
         exercise: exercise,
         sets: sets,
