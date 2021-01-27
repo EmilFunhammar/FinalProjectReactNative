@@ -20,11 +20,18 @@ const SetNumberView = ({ setSetNumber, setNumber }) => {
         onPress={() => setSetNumber(setNumber - 1)}
         activeOpacity={0.8}
       >
-        <View style={styles.create_workout_add_and_remove}>
+        <View
+          style={{
+            ...styles.create_workout_add_and_remove,
+            borderTopLeftRadius: 10,
+            borderBottomLeftRadius: 10,
+          }}
+        >
           <Text style={{ fontSize: 30 }}>-</Text>
         </View>
       </TouchableOpacity>
       <View style={styles.create_workout_number}>
+        <Text>Rets</Text>
         <Text style={{ fontSize: 22 }}>{setNumber}</Text>
       </View>
       <TouchableOpacity
@@ -34,7 +41,9 @@ const SetNumberView = ({ setSetNumber, setNumber }) => {
         <View
           style={{
             ...styles.create_workout_add_and_remove,
-            marginRight: 10,
+            borderBottomRightRadius: 10,
+            borderTopRightRadius: 10,
+            marginRight: -5,
           }}
         >
           <Text style={{ fontSize: 30 }}>+</Text>
@@ -51,24 +60,31 @@ const RepNumberView = ({ setRepNumber, repNumber }) => {
         onPress={() => setRepNumber(repNumber - 1)}
         activeOpacity={0.8}
       >
-        <View style={styles.create_workout_add_and_remove}>
+        <View
+          style={{
+            ...styles.create_workout_add_and_remove,
+            borderBottomLeftRadius: 10,
+            borderTopStartRadius: 10,
+          }}
+        >
           <Text style={{ fontSize: 30 }}>-</Text>
         </View>
       </TouchableOpacity>
       <View style={styles.create_workout_number}>
+        <Text>Sets</Text>
         <Text style={{ fontSize: 22 }}>{repNumber}</Text>
       </View>
       <TouchableOpacity
         onPress={() => {
-          console.log('on press ');
           setRepNumber(repNumber + 1);
         }}
-        // onPress={() => setRepNumber((prev) => prev + 1)}
         activeOpacity={0.8}
       >
         <View
           style={{
             ...styles.create_workout_add_and_remove,
+            borderBottomRightRadius: 10,
+            borderTopRightRadius: 10,
             marginRight: 10,
           }}
         >
@@ -88,7 +104,6 @@ const WorkOutTextInputView = ({ setTextInputValue, textInputValue, id }) => {
         placeholder="Enter workout exercise:"
         placeholderTextColor="black"
       ></TextInput>
-      <Text>text {textInputValue}</Text>
     </>
   );
 };
@@ -110,6 +125,17 @@ const CreateWorkoutItem = ({
           textInputValue={textInputValue}
           id={id}
         />
+
+        {/* <Text
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginLeft: '15%',
+            }}
+          >
+            Sets
+          </Text> */}
+
         <View style={styles.create_workout_view}>
           <RepNumberView
             setRepNumber={setRepNumber}
@@ -132,6 +158,14 @@ const WorkOutFlatList = () => {
   //const [textInputValue, setTextInputValue] = useState();
   //const finshArrat = [];
 
+  const RemoveExersice = () => {
+    let updatedValue1 = [...workOutItem];
+    updatedValue1.splice(updatedValue1.length - 1, 1);
+    //verkar vara 1 efter också
+    setWorkOutItem(updatedValue1);
+    console.log('WorkItem array', workOutItem);
+  };
+
   const SetValue = (feild, newValue, index) => {
     let updatedWorkoutValue = [...workOutItem];
     updatedWorkoutValue[index] = {
@@ -139,9 +173,10 @@ const WorkOutFlatList = () => {
       ...updatedWorkoutValue[index],
       [feild]: newValue,
     };
+    //workOutItem verkar vara 1 efter???
     console.log('updatedValue', updatedWorkoutValue);
-
     setWorkOutItem(updatedWorkoutValue);
+    console.log('WorkoutArray', workOutItem);
   };
 
   //newValue och index är vad functionen vill ha när den kallas?
@@ -163,6 +198,7 @@ const WorkOutFlatList = () => {
       <Button
         title="add Exercise"
         onPress={() =>
+          // koppierar den från början toma array och lägger till ett object med 3 värden i
           setWorkOutItem([
             ...workOutItem,
             { setNumber: 0, repNumber: 0, textInputValue: '' },
@@ -189,14 +225,14 @@ const WorkOutFlatList = () => {
         )}
         keyExtractor={(item, index) => index.toString()}
       ></FlatList>
-      <Text>text {JSON.stringify(workOutItem)}</Text>
-      <Button
-        title="remove workout"
-        onPress={() => setWorkOutItem(workOutItem.splice(1))}
-      ></Button>
+
+      <Button title="remove workout" onPress={() => RemoveExersice()}></Button>
       <Button
         title="add WorkOut"
-        onPress={() => console.log('add WorkOut')}
+        onPress={() => {
+          console.log('add WorkOut');
+          //add to firebase here
+        }}
       ></Button>
     </>
   );
@@ -241,6 +277,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     height: 40,
+
     width: 30,
   },
   card_view: {

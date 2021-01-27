@@ -14,28 +14,15 @@ const firebaseConfig = {
   messagingSenderId: '710813520216',
   appId: '1:710813520216:web:c2a2499d2b292797d6152d',
 };
+
 if (!firebase.apps.length) {
   const firebaseApp = firebase.initializeApp(firebaseConfig);
 }
 
-//const firebaseApp = firebase.initializeApp(firebaseConfig);
-
 export const auth = firebase.auth();
-export const db = firebase.database();
-//export const db = firebaseApp.database();
-// export const db = firebase.firestore(firebaseApp);
-// const usersCollection = db.collection('Users');
-// export const dbcollection = firestore();
+//var workoutRef = firebase.collection('UserWorkouts').doc(userId);
 
-// export function storeHighScore(userId, score) {
-//   console.log('inne i highscore', userId, score);
-//   firebase.firestore().collection('emil').add({
-//     highscore: score,
-//   });
-//   console.log('lämnar highscore');
-// }
-
-export function Test(name, email, userId) {
+export function SaveUser(userId, name, email) {
   console.log('inne i Test', name, email, userId);
   firebase
     .firestore()
@@ -59,15 +46,26 @@ export function SaveUserWorkOut(userId, exercise, sets, reps) {
     .firestore()
     .collection('UserWorkouts')
     .doc(userId)
-    .set({
-      userId: userId,
-      exercise: exercise,
-      sets: sets,
-      reps: reps,
-    })
+    .set(
+      {
+        // merga
+        userId: userId,
+        exercise: exercise,
+        sets: sets,
+        reps: reps,
+      },
+      { merge: true }
+    )
     .then(function () {
       console.log('Document successfully written!');
     })
     .catch((error) => console.log('error', error));
   console.log('slutaet av  Test');
 }
+
+// var setWithMerge = cityRef.set(
+//   {
+//     capital: true,
+//   },
+//   { merge: true }
+// );
