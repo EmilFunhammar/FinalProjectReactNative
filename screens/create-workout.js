@@ -11,7 +11,11 @@ import {
 } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import { set } from 'react-native-reanimated';
-import { useState } from 'react/cjs/react.development';
+import { useState, useContext } from 'react/cjs/react.development';
+import { SaveUserWorkOut, Test } from '../Context/FIrebaseContext';
+import { AuthContext } from '../Context/AuthContext';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
 const SetNumberView = ({ setSetNumber, setNumber }) => {
   return (
@@ -31,7 +35,7 @@ const SetNumberView = ({ setSetNumber, setNumber }) => {
         </View>
       </TouchableOpacity>
       <View style={styles.create_workout_number}>
-        <Text>Rets</Text>
+        <Text style={{ fontSize: 12 }}>Reps</Text>
         <Text style={{ fontSize: 22 }}>{setNumber}</Text>
       </View>
       <TouchableOpacity
@@ -71,7 +75,7 @@ const RepNumberView = ({ setRepNumber, repNumber }) => {
         </View>
       </TouchableOpacity>
       <View style={styles.create_workout_number}>
-        <Text>Sets</Text>
+        <Text style={{ fontSize: 12 }}>Sets</Text>
         <Text style={{ fontSize: 22 }}>{repNumber}</Text>
       </View>
       <TouchableOpacity
@@ -123,7 +127,6 @@ const CreateWorkoutItem = ({
         <WorkOutTextInputView
           setTextInputValue={setTextInputValue}
           textInputValue={textInputValue}
-          id={id}
         />
 
         {/* <Text
@@ -151,7 +154,9 @@ const CreateWorkoutItem = ({
   );
 };
 
-const WorkOutFlatList = () => {
+const WorkOutFlatList = ({ navigation }) => {
+  const { user } = useContext(AuthContext);
+
   const [workOutItem, setWorkOutItem] = useState([]);
   //const [repNumber, setRepNumber] = useState(0);
   //const [setNumber, setSetNumber] = useState(0);
@@ -163,7 +168,7 @@ const WorkOutFlatList = () => {
     updatedValue1.splice(updatedValue1.length - 1, 1);
     //verkar vara 1 efter också
     setWorkOutItem(updatedValue1);
-    console.log('WorkItem array', workOutItem);
+    //console.log('WorkItem array', workOutItem);
   };
 
   const SetValue = (feild, newValue, index) => {
@@ -174,9 +179,9 @@ const WorkOutFlatList = () => {
       [feild]: newValue,
     };
     //workOutItem verkar vara 1 efter???
-    console.log('updatedValue', updatedWorkoutValue);
+    //console.log('updatedValue', updatedWorkoutValue);
     setWorkOutItem(updatedWorkoutValue);
-    console.log('WorkoutArray', workOutItem);
+    //console.log('WorkoutArray', workOutItem);
   };
 
   //newValue och index är vad functionen vill ha när den kallas?
@@ -212,15 +217,11 @@ const WorkOutFlatList = () => {
         renderItem={({ item, index }) => (
           <CreateWorkoutItem
             setRepNumber={(newValue) => SetRepNumber(newValue, index)}
-            // setRepNumber={function (newValue) {
-            //   return SetRepNumber(newValue, index);
-            // }}
             setSetNumber={(newValue) => setSetNumber(newValue, index)}
             setTextInputValue={(newValue) => setTextInputValue(newValue, index)}
             repNumber={item.repNumber}
             setNumber={item.setNumber}
             textInputValue={item.textInputValue}
-            id={index}
           ></CreateWorkoutItem>
         )}
         keyExtractor={(item, index) => index.toString()}
@@ -231,7 +232,8 @@ const WorkOutFlatList = () => {
         title="add WorkOut"
         onPress={() => {
           console.log('add WorkOut');
-          //add to firebase here
+          //SaveUserWorkOut(user.uid, workOutItem);
+          // navigation här
         }}
       ></Button>
     </>

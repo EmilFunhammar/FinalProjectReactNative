@@ -2,15 +2,15 @@ import React, { useContext } from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
 import { AuthContext } from '../Context/AuthContext';
 import { useState } from 'react/cjs/react.development';
-import { SaveUser, SaveUserWorkOut } from '../Context/FIrebaseContext';
+import {
+  SaveUser,
+  SaveUserWorkOut,
+  GetUserWorkouts,
+  GetOneUserWorkout,
+} from '../Context/FIrebaseContext';
 
 export default function Utvecklingn() {
   const { user } = useContext(AuthContext);
-
-  const ReadfromDataBase = () => {
-    console.log('läs från databs');
-    storeHighScore(1234, 500);
-  };
 
   // class CreateWorkOut {
   //   constructor(exercise, set, rep) {
@@ -43,7 +43,15 @@ export default function Utvecklingn() {
       ></Button>
       <Button
         title="Spara workout"
-        onPress={() => SaveUserWorkOut(user.uid, 'biceps', 3, 10)}
+        onPress={() => SaveUserWorkOut(user.uid, 'biceps', 3, 10, '16')}
+      ></Button>
+      <Button
+        title="Hämta workouts"
+        onPress={() => GetUserWorkouts(user.uid)}
+      ></Button>
+      <Button
+        title="Hämta en workout"
+        onPress={() => GetOneUserWorkout(user.uid, '123456')}
       ></Button>
     </View>
   );
