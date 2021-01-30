@@ -11,10 +11,10 @@ import {
   View,
 } from 'react-native';
 import { AuthContext } from '../Context/AuthContext';
+import { GetOneUserWorkout, GetUserWorkouts } from '../Context/FIrebaseContext';
 
 const WorkoutItem = ({ itemTitle, workoutModal, itemImage }) => {
-  const { signOut } = useContext(AuthContext);
-  var imageName = `${itemImage}`;
+  //const { signOut } = useContext(AuthContext);
 
   return (
     <TouchableOpacity
@@ -23,6 +23,7 @@ const WorkoutItem = ({ itemTitle, workoutModal, itemImage }) => {
       }}
       onPress={() => {
         workoutModal(true);
+        //fetchWorkouts();
       }}
     >
       <ImageBackground
@@ -71,6 +72,7 @@ const ModalW = ({
 export default function Workout() {
   const [workoutModal, setWorkoutModal] = useState(false);
   const [isbool, setBool] = useState(false);
+  const { user } = useContext(AuthContext);
   const workoutArrat = [
     { id: 1, workout: 'workout1' },
     { id: 2, workout: 'workout2' },
@@ -87,29 +89,33 @@ export default function Workout() {
     { id: 13, workout: 'workout13' },
   ];
   const allWorkoutsArray = [
-    {
-      id: 1,
-      title: 'back and neck',
-      image: './assets/favicon.png',
-    },
-    { id: 2, title: 'Biceps', image: './assets/favicon.png' },
-    { id: 3, title: 'Biceps', image: './assets/favicon.png' },
-    { id: 4, title: 'Biceps', image: './assets/favicon.png' },
-    { id: 5, title: 'Biceps', image: './assets/favicon.png' },
-    { id: 6, title: 'Biceps', image: './assets/favicon.png' },
-    { id: 7, title: 'Bicesdsdps', image: './assets/favicon.png' },
-    { id: 8, title: 'Biceps', image: './assets/favicon.png' },
-    { id: 9, title: 'Biceps', image: './assets/favicon.png' },
-    { id: 10, title: 'Biceps', image: './assets/favicon.png' },
+    { id: 1, title: 'back and neck' },
+    { id: 2, title: 'Biceps' },
+    { id: 3, title: 'Biceps' },
+    { id: 4, title: 'Biceps' },
+    { id: 5, title: 'Biceps' },
+    { id: 6, title: 'Biceps' },
+    { id: 7, title: 'Bicesdsdps' },
+    { id: 8, title: 'Biceps' },
+    { id: 9, title: 'Biceps' },
+    { id: 10, title: 'Biceps' },
   ];
+
   return (
     <SafeAreaView style={{ width: '100%' }}>
+      <Button
+        title="get workouts"
+        onPress={() => {
+          console.log('button pressd');
+          GetUserWorkouts(user.uid);
+        }}
+      ></Button>
       <View style={styles.workout}>
         <ModalW
           visible={workoutModal}
           setWorkoutModal={setWorkoutModal}
           workoutModal={workoutModal}
-          allWorkoutsArray={allWorkoutsArray}
+          //allWorkoutsArray={allWorkoutsArray}
           workoutArrat={workoutArrat}
         >
           <FlatList

@@ -14,8 +14,7 @@ import { set } from 'react-native-reanimated';
 import { useState, useContext } from 'react/cjs/react.development';
 import { SaveUserWorkOut, Test } from '../Context/FIrebaseContext';
 import { AuthContext } from '../Context/AuthContext';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { useNavigation } from '@react-navigation/native';
 
 const SetNumberView = ({ setSetNumber, setNumber }) => {
   return (
@@ -154,8 +153,9 @@ const CreateWorkoutItem = ({
   );
 };
 
-const WorkOutFlatList = ({ navigation }) => {
+const WorkOutFlatList = () => {
   const { user } = useContext(AuthContext);
+  const navigation = useNavigation();
 
   const [workOutItem, setWorkOutItem] = useState([]);
   //const [repNumber, setRepNumber] = useState(0);
@@ -232,7 +232,10 @@ const WorkOutFlatList = ({ navigation }) => {
         title="add WorkOut"
         onPress={() => {
           console.log('add WorkOut');
-          //SaveUserWorkOut(user.uid, workOutItem);
+          SaveUserWorkOut(user.uid, workOutItem);
+
+          //console.log('emil');
+          navigation.navigate('Choose_Workout');
           // navigation här
         }}
       ></Button>

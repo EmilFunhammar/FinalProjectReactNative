@@ -21,8 +21,18 @@ if (!firebase.apps.length) {
 }
 
 export const auth = firebase.auth();
+
+export function InviteFriends() {
+  // invite friend to begin workout
+}
+
+export function WorkoutSession() {
+  // snapshot listiner on active session workout
+}
+
 //var workoutRef = firebase.collection('UserWorkouts').doc(userId);
 export function GetUserWorkouts(userId) {
+  console.log('get user workouts2');
   firebase
     .firestore()
     .collection('UserWorkouts')
@@ -34,7 +44,26 @@ export function GetUserWorkouts(userId) {
         // doc.data() is never undefined for query doc snapshots
         console.log(doc.id, ' => ', doc.data());
       });
+    })
+    .catch(function (error) {
+      console.log('Error getting document:', error);
     });
+
+  // .doc('r037kqjhiA9WcCJ1q0t1')
+  // .collection('Excercises')
+  // .doc('pmy65iGueYYiZJg6ZZCB')
+  // .get()
+  // .then(function (doc) {
+  //   if (doc.exists) {
+  //     console.log('Document data:', doc.data());
+  //   } else {
+  //     // doc.data() will be undefined in this case
+  //     console.log('No such document!');
+  //   }
+  // })
+  // .catch(function (error) {
+  //   console.log('Error getting document:', error);
+  // });
 }
 
 export function GetOneUserWorkout(userId, WorkoutId) {
@@ -76,41 +105,8 @@ export function SaveUser(userId, name, email) {
   console.log('slutaet av  Test', name, email);
 }
 
-export function SaveUserWorkOut1(WorkOut, ExersicesID, userId) {
-  //console.log('inne i Test', userId, reps, sets, exercise, ExersicesID);
-  firebase
-    .firestore()
-    .collection('UserWorkouts')
-    .doc(userId)
-    .collection('Workouts')
-    .doc(ExersicesID)
-    .set({
-      repNumber: WorkOut.repNumber,
-      //exercise: exercise,
-      //sets: sets,
-      //reps: reps,
-      //ExersicesID: ExersicesID,
-    })
-    .then(function () {
-      console.log('Document successfully written!');
-    })
-    .catch((error) => console.log('error', error));
-  console.log('slutaet av  Test');
-}
-// skickar med userID an WorkOutItemArray
-
-export function Test(workoutArray) {
-  var i;
-  for (i = 0; i < workoutArray.length; i++) {
-    //console.log('workarray: loop', workoutArray[i]);
-    console.log('set:', workoutArray[i].setNumber);
-    console.log('rep:', workoutArray[i].repNumber);
-    console.log('exs:', workoutArray[i].textInputValue);
-  }
-}
 export function SaveUserWorkOut(userId, workoutArray) {
   //lopp ej för den skapar en ny workout
-
   let ref = firebase
     .firestore()
     .collection('UserWorkouts')
@@ -118,7 +114,6 @@ export function SaveUserWorkOut(userId, workoutArray) {
     .collection('Workouts')
     .doc();
   // loopa för att skapa nya exersices
-
   var i;
   for (i = 0; i < workoutArray.length; i++) {
     console.log('insideLoop');
@@ -136,10 +131,3 @@ export function SaveUserWorkOut(userId, workoutArray) {
   }
   console.log('outsideLoop');
 }
-
-// var setWithMerge = cityRef.set(
-//   {
-//     capital: true,
-//   },
-//   { merge: true }
-// );
