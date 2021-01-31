@@ -105,14 +105,14 @@ export function SaveUser(userId, name, email) {
   console.log('slutaet av  Test', name, email);
 }
 
-export function SaveUserWorkOut(userId, workoutArray) {
+export function SaveUserWorkOut(userId, workoutArray, workoutName) {
   //lopp ej för den skapar en ny workout
   let ref = firebase
     .firestore()
     .collection('UserWorkouts')
     .doc(userId)
     .collection('Workouts')
-    .doc();
+    .doc(workoutName);
   // loopa för att skapa nya exersices
   var i;
   for (i = 0; i < workoutArray.length; i++) {

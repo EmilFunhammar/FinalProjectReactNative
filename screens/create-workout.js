@@ -8,6 +8,8 @@ import {
   ImageBackground,
   Button,
   FlatList,
+  Alert,
+  Modal,
 } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import { set } from 'react-native-reanimated';
@@ -156,6 +158,7 @@ const CreateWorkoutItem = ({
 const WorkOutFlatList = () => {
   const { user } = useContext(AuthContext);
   const navigation = useNavigation();
+  const [modalVisible, setModalVisible] = useState(false);
 
   const [workOutItem, setWorkOutItem] = useState([]);
   //const [repNumber, setRepNumber] = useState(0);
@@ -227,19 +230,69 @@ const WorkOutFlatList = () => {
         keyExtractor={(item, index) => index.toString()}
       ></FlatList>
 
+      <EnterNameModal
+        setModalVisible={setModalVisible}
+        modalVisible={modalVisible}
+        workOutItem={workOutItem}
+      />
+
       <Button title="remove workout" onPress={() => RemoveExersice()}></Button>
       <Button
         title="add WorkOut"
         onPress={() => {
           console.log('add WorkOut');
-          SaveUserWorkOut(user.uid, workOutItem);
-
+          //SaveUserWorkOut(user.uid, workOutItem);
+          setModalVisible(true);
           //console.log('emil');
-          navigation.navigate('Choose_Workout');
+          //navigation.navigate('Choose_Workout');
           // navigation här
         }}
       ></Button>
     </>
+  );
+};
+
+const EnterNameModal = ({ modalVisible, setModalVisible, workOutItem }) => {
+  const [workoutName, setWorkoutName] = useState('');
+  const { user } = useContext(AuthContext);
+  return (
+    <Modal
+      animationType="slide"
+      transparent={true}
+      visible={modalVisible}
+      onRequestClose={() => {
+        Alert.alert('Modal has been closed.');
+      }}
+    >
+      <View
+        style={{
+          position: 'absolute',
+          top: '45%',
+          left: '15%',
+          backgroundColor: 'white',
+          height: 120,
+          width: 300,
+          borderRadius: 20,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <TextInput
+          placeholder="Enter Workout Name:"
+          onChangeText={(text) => {
+            setWorkoutName(text);
+          }}
+        />
+        <Button
+          title="Add workout"
+          onPress={() => {
+            setModalVisible(false);
+            SaveUserWorkOut(user.uid, workOutItem, workoutName);
+            navigation.navigate('Choose_Workout');
+          }}
+        ></Button>
+      </View>
+    </Modal>
   );
 };
 
