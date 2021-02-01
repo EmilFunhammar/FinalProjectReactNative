@@ -1,5 +1,8 @@
 {
   "devToolsPort": 19002,
   "expoServerPort": 19000,
-  "packagerPort": 19000
+  "packagerPort": 19000,
+  "expoServerNgrokUrl": "https://3v-bm8.emilfunhammar.finalprojectreactnative.exp.direct",
+  "packagerNgrokUrl": "https://packager.3v-bm8.emilfunhammar.finalprojectreactnative.exp.direct",
+  "ngrokPid": 91608
 }

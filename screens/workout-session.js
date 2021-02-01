@@ -1,9 +1,18 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useState, useContext } from 'react';
+import { View, Text, StyleSheet, Button } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
+import { Auth, AuthContext } from '../Context/AuthContext';
+import {
+  SaveUser,
+  SaveUserWorkOut,
+  GetUserWorkouts,
+  GetOneUserWorkout,
+  WorkoutSession,
+} from '../Context/FIrebaseContext';
 
-export default function WorkoutSession() {
+export default function WorkoutSession1() {
   // fetch the workout
+  //WorkoutSession()
   const testArray = [
     {
       id: 1,
@@ -64,6 +73,7 @@ const ExerciseItem = ({ exercise, sets, reps }) => {
 };
 
 const RenderUsers = ({ exercise, sets, reps }) => {
+  const { user } = useContext(AuthContext);
   return (
     <View style={styles.setsAndReps}>
       <View style={styles.users}>
@@ -75,7 +85,7 @@ const RenderUsers = ({ exercise, sets, reps }) => {
           }}
         >
           <View style={styles.checkBox}></View>
-          <Text> Player1</Text>
+          <Text> {user.email}</Text>
         </View>
       </View>
       <View style={{ flexDirection: 'row' }}>

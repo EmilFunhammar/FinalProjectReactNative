@@ -7,6 +7,7 @@ import {
   SaveUserWorkOut,
   GetUserWorkouts,
   GetOneUserWorkout,
+  WorkoutSession,
 } from '../Context/FIrebaseContext';
 
 export default function Utvecklingn() {
@@ -29,14 +30,7 @@ export default function Utvecklingn() {
         title="spara user"
         onPress={() => SaveUser(user.uid, 'ida', 'emil@gmail.com')}
       ></Button>
-      {/* <Button
-        title="skapa pperon"
-        onPress={() => {
-          let user = new CreateWorkOut('legs', 4, 4);
-          WorkoutArray.push(user);
-          console.log('emil');
-        }}
-      ></Button> */}
+
       <Button
         title="Läs från databas"
         onPress={() => ReadfromDataBase()}
@@ -51,7 +45,11 @@ export default function Utvecklingn() {
       ></Button>
       <Button
         title="Hämta en workout"
-        onPress={() => GetOneUserWorkout(user.uid, '123456')}
+        onPress={() => GetOneUserWorkout(user.uid, 'Test 2 modal name')}
+      ></Button>
+      <Button
+        title="Hämta en workout"
+        onPress={() => WorkoutSession(user.uid, 'Test 2 modal name')}
       ></Button>
     </View>
   );

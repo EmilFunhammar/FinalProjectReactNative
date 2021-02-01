@@ -26,13 +26,31 @@ export function InviteFriends() {
   // invite friend to begin workout
 }
 
-export function WorkoutSession() {
+export function WorkoutSession(userId, workoutName) {
   // snapshot listiner on active session workout
+  firebase
+    .firestore()
+    .collection('UserWorkouts')
+    .doc(userId)
+    .collection('Workouts')
+    .doc(workoutName)
+    .collection('Excercises')
+    .doc('yZ9jWVfOCQXhYO5avZax')
+    .onSnapshot(
+      {
+        // Listen for document metadata changes
+        includeMetadataChanges: true,
+      },
+      function (doc) {
+        // ...
+        console.log(doc.id, ' => ', doc.data());
+      }
+    );
 }
 
 //var workoutRef = firebase.collection('UserWorkouts').doc(userId);
-export function GetUserWorkouts(userId) {
-  console.log('get user workouts2');
+export function GetUserWorkouts(userId, setUserWorkoutsArray) {
+  let WorkoutArray = [];
   firebase
     .firestore()
     .collection('UserWorkouts')
@@ -41,13 +59,33 @@ export function GetUserWorkouts(userId) {
     .get()
     .then(function (querySnapshot) {
       querySnapshot.forEach(function (doc) {
-        // doc.data() is never undefined for query doc snapshots
-        console.log(doc.id, ' => ', doc.data());
+        var OneWorkout = { id: doc.id, name: doc.data().workoutName };
+        WorkoutArray.push(OneWorkout);
       });
-    })
-    .catch(function (error) {
-      console.log('Error getting document:', error);
+      //console.log('WorkoutArray1', WorkoutArray);
+      setUserWorkoutsArray(WorkoutArray);
     });
+
+  // doc.data() is never undefined for query doc snapshots
+  //console.log('doc', doc.data().workoutName);
+
+  //console.log('userarray', WorkoutArray);
+  // console.log('userWorkoutArray', UserWorkoutArray);
+  // varja doc.data.Ex name till varja itemi flatlist
+  //console.log(doc.id, ' => ', doc.data());
+
+  //return UserWorkoutsArray;
+  //.then(function (querySnapshot) {
+  //console.log('query', querySnapshot);
+  //querySnapshot.forEach((doc) => console.log(doc.id, ' => ', doc.data()));
+  // querySnapshot.forEach(function (doc) {
+  //   // doc.data() is never undefined for query doc snapshots
+  //   console.log(doc.id, ' => ', doc.data());
+  // });
+  //})
+  // .catch(function (error) {
+  //   console.log('Error getting document:', error);
+  // });
 
   // .doc('r037kqjhiA9WcCJ1q0t1')
   // .collection('Excercises')
@@ -66,13 +104,16 @@ export function GetUserWorkouts(userId) {
   // });
 }
 
-export function GetOneUserWorkout(userId, WorkoutId) {
+export function GetOneUserWorkout(userId, workoutName) {
+  console.log('Name', workoutName);
   firebase
     .firestore()
     .collection('UserWorkouts')
     .doc(userId)
     .collection('Workouts')
-    .doc(WorkoutId)
+    .doc(workoutName)
+    .collection('Excercises')
+    .doc('yZ9jWVfOCQXhYO5avZax')
     .get()
     .then(function (doc) {
       if (doc.exists) {
@@ -112,7 +153,8 @@ export function SaveUserWorkOut(userId, workoutArray, workoutName) {
     .collection('UserWorkouts')
     .doc(userId)
     .collection('Workouts')
-    .doc(workoutName);
+    .doc();
+  ref.set({ workoutName: workoutName });
   // loopa för att skapa nya exersices
   var i;
   for (i = 0; i < workoutArray.length; i++) {

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
+import { AuthContext } from '../Context/AuthContext';
 import { View, Text, Button, StyleSheet } from 'react-native';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
@@ -42,6 +43,7 @@ export default function StartWorkout() {
           style={styles.buttons}
           onPress={() => {
             navigation.navigate('Workout_session');
+            // add number of players to firestore
           }}
         >
           <Text style={styles.buttons_text}>Start workout</Text>
@@ -52,9 +54,10 @@ export default function StartWorkout() {
 }
 
 const ParticipantView = () => {
+  const { user } = useContext(AuthContext);
   return (
     <>
-      <Text style={styles.participant_text}>user1</Text>
+      <Text style={styles.participant_text}>{user.email}</Text>
       <View style={styles.line_view}></View>
     </>
   );
