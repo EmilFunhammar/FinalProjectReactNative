@@ -6,13 +6,20 @@ import 'firebase/functions';
 import 'firebase/storage';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyAKPL25brdEyVf1QxIEgIaAnwSpgthhoyQ',
-  authDomain: 'reactnativefinalprojectgymapp.firebaseapp.com',
-  databaseURL: 'https:ReactNativeFinalProjectGymApp.firebaseio.com',
-  projectId: 'reactnativefinalprojectgymapp',
-  storageBucket: 'reactnativefinalprojectgymapp.appspot.com',
-  messagingSenderId: '710813520216',
-  appId: '1:710813520216:web:c2a2499d2b292797d6152d',
+  apiKey: 'AIzaSyBuypY79KmAfSyx-LA19KBBMryP8oN5z3A',
+  authDomain: 'newfinal-project.firebaseapp.com',
+  projectId: 'newfinal-project',
+  storageBucket: 'newfinal-project.appspot.com',
+  messagingSenderId: '686815357216',
+  appId: '1:686815357216:web:5ae92386bee09e12df0f45',
+
+  // apiKey: 'AIzaSyAKPL25brdEyVf1QxIEgIaAnwSpgthhoyQ',
+  // authDomain: 'reactnativefinalprojectgymapp.firebaseapp.com',
+  // databaseURL: 'https:ReactNativeFinalProjectGymApp.firebaseio.com',
+  // projectId: 'reactnativefinalprojectgymapp',
+  // storageBucket: 'reactnativefinalprojectgymapp.appspot.com',
+  // messagingSenderId: '710813520216',
+  // appId: '1:710813520216:web:c2a2499d2b292797d6152d',
 };
 
 if (!firebase.apps.length) {
@@ -22,20 +29,74 @@ if (!firebase.apps.length) {
 
 export const auth = firebase.auth();
 
-export function InviteFriends() {
-  // invite friend to begin workout
+export function ListenToTheWorkout(workoutId) {
+  console.log('workId:', workoutId);
+  let ref = firebase
+    .firestore()
+    .collection('WorkoutSession')
+    .doc(workoutId)
+    .collection('Exersices');
+
+  ref.onSnapshot(function (querySnapshot) {
+    var Exersices = [];
+    querySnapshot.forEach(function (doc) {
+      Exersices.push(doc.data().sets);
+    });
+    console.log('Current cities in CA: ', Exersices.join(', '));
+  });
+}
+
+export function AddUserToWorkout() {
+  firebase
+    .firestore()
+    .collection('WorkoutSession')
+    .doc(workoutId)
+    .collection()
+    .doc()
+    .set({})
+    .then(function () {
+      console.log('Document successfully written!');
+    })
+    .catch((error) => console.log('error', error));
+}
+
+export function AddWorkoutSession(userEmail, workoutId, exersicesArray) {
+  let ref = firebase
+    .firestore()
+    .collection('WorkoutSession')
+    .doc(workoutId)
+    .collection('Exersices');
+  //.collection('Workouts')
+  //.doc();
+  //ref.set({ workoutName: workoutName });
+  // loopa för att skapa nya exersices
+  var i;
+  for (i = 0; i < exersicesArray.length; i++) {
+    console.log('ex id:', exersicesArray[i].id);
+    ref
+
+      .doc(exersicesArray[i].id)
+      .set({
+        userEmail: userEmail,
+        exercise: exersicesArray[i].exercise,
+        sets: exersicesArray[i].sets,
+        reps: exersicesArray[i].reps,
+      })
+      .then(function () {
+        console.log('Document successfully written!');
+      })
+      .catch((error) => console.log('error', error));
+  }
 }
 
 export function WorkoutSession(userId, workoutName) {
   // snapshot listiner on active session workout
   firebase
     .firestore()
-    .collection('UserWorkouts')
-    .doc(userId)
-    .collection('Workouts')
-    .doc(workoutName)
+    .collection('WorkoutSession')
+    .doc('YMOa4tregVEiNFbGp5d5')
     .collection('Excercises')
-    .doc('yZ9jWVfOCQXhYO5avZax')
+    .doc('GKxIOAkucgZkasRAsE3g')
     .onSnapshot(
       {
         // Listen for document metadata changes
@@ -46,6 +107,35 @@ export function WorkoutSession(userId, workoutName) {
         console.log(doc.id, ' => ', doc.data());
       }
     );
+}
+
+export function GetUserWorkout(workoutId, userId, setExersicesArray) {
+  let exersicesArray = [];
+  firebase
+    .firestore()
+    .collection('UserWorkouts')
+    .doc(userId)
+    .collection('Workouts')
+    .doc(workoutId)
+    .collection('Excercises')
+    .get()
+    .then(function (querySnapshot) {
+      querySnapshot.forEach(function (doc) {
+        var OneExerscise = {
+          id: doc.id,
+          exercise: doc.data().exercise,
+          sets: doc.data().sets,
+          reps: doc.data().reps,
+        };
+        console.log('inne i', OneExerscise);
+        exersicesArray.push(OneExerscise);
+      });
+      console.log('emil', exersicesArray);
+      setExersicesArray(exersicesArray);
+    })
+    .catch(function (error) {
+      console.log('Error getting document:', error);
+    });
 }
 
 //var workoutRef = firebase.collection('UserWorkouts').doc(userId);
@@ -104,29 +194,29 @@ export function GetUserWorkouts(userId, setUserWorkoutsArray) {
   // });
 }
 
-export function GetOneUserWorkout(userId, workoutName) {
-  console.log('Name', workoutName);
-  firebase
-    .firestore()
-    .collection('UserWorkouts')
-    .doc(userId)
-    .collection('Workouts')
-    .doc(workoutName)
-    .collection('Excercises')
-    .doc('yZ9jWVfOCQXhYO5avZax')
-    .get()
-    .then(function (doc) {
-      if (doc.exists) {
-        console.log('Document data:', doc.data());
-      } else {
-        // doc.data() will be undefined in this case
-        console.log('No such document!');
-      }
-    })
-    .catch(function (error) {
-      console.log('Error getting document:', error);
-    });
-}
+// export function GetOneUserWorkout(userId, workoutName) {
+//   console.log('Name', workoutName);
+//   firebase
+//     .firestore()
+//     .collection('UserWorkouts')
+//     .doc(userId)
+//     .collection('Workouts')
+//     .doc(workoutName)
+//     .collection('Excercises')
+//     .doc('yZ9jWVfOCQXhYO5avZax')
+//     .get()
+//     .then(function (doc) {
+//       if (doc.exists) {
+//         // console.log('Document data:', doc.data());
+//       } else {
+//         // doc.data() will be undefined in this case
+//         console.log('No such document!');
+//       }
+//     })
+//     .catch(function (error) {
+//       console.log('Error getting document:', error);
+//     });
+// }
 
 export function SaveUser(userId, name, email) {
   console.log('inne i Test', name, email, userId);

@@ -19,17 +19,33 @@ import {
   GetUserWorkouts,
   GetOneUserWorkout,
   WorkoutSession,
+  GetUserWorkout,
+  AddWorkoutSession,
 } from '../Context/FIrebaseContext';
 
 const WorkoutItem = ({ itemTitle, workoutModal, itemImage, itemId }) => {
+  const { user } = useContext(AuthContext);
+  const [exersicesArray, setExersicesArray] = useState([]);
   return (
     <TouchableOpacity
       onLongPress={() => {
-        console.log('long press', itemId);
+        GetUserWorkout(itemId, user.uid, setExersicesArray);
+
+        // sholud contain all the exersices and the id to the exersice
+
+        //
+        //itemTitle;
+        // itemId; // the id of the workout
+
+        //console.log('exersicearry', exersicesArray);
+        //console.log('long press', itemId);
+        //console.log('long press', itemTitle);
       }}
       onPress={() => {
-        workoutModal(true);
-        //fetchWorkouts();
+        console.log('exarray', exersicesArray);
+        AddWorkoutSession(user.email, itemId, exersicesArray);
+        // tar upp modal
+        //workoutModal(true);
       }}
     >
       <View
@@ -133,7 +149,8 @@ export default function Workout() {
   //   { id: 10, title: 'Biceps' },
   // ];
   const [UserWorkoutsArray, setUserWorkoutsArray] = useState([]);
-  GetUserWorkouts(user.uid, setUserWorkoutsArray);
+  // sätt på igen när du får läsa
+  //GetUserWorkouts(user.uid, setUserWorkoutsArray);
 
   return (
     <SafeAreaView style={{ width: '100%' }}>
@@ -177,6 +194,10 @@ export default function Workout() {
           }}
           keyExtractor={(item, index) => index.toString()}
         />
+        <Button
+          title="read"
+          onPress={() => GetUserWorkouts(user.uid, setUserWorkoutsArray)}
+        ></Button>
       </View>
     </SafeAreaView>
   );

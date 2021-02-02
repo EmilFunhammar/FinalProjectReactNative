@@ -157,7 +157,7 @@ const CreateWorkoutItem = ({
 
 const WorkOutFlatList = () => {
   const { user } = useContext(AuthContext);
-  const navigation = useNavigation();
+
   const [modalVisible, setModalVisible] = useState(false);
 
   const [workOutItem, setWorkOutItem] = useState([]);
@@ -203,17 +203,6 @@ const WorkOutFlatList = () => {
 
   return (
     <>
-      <Button
-        title="add Exercise"
-        onPress={() =>
-          // koppierar den från början toma array och lägger till ett object med 3 värden i
-          setWorkOutItem([
-            ...workOutItem,
-            { setNumber: 0, repNumber: 0, textInputValue: '' },
-          ])
-        }
-      />
-
       <FlatList
         style={{ backgroundColor: '#3F7134', width: '100%' }}
         data={workOutItem}
@@ -235,7 +224,16 @@ const WorkOutFlatList = () => {
         modalVisible={modalVisible}
         workOutItem={workOutItem}
       />
-
+      <Button
+        title="add Exercise"
+        onPress={() =>
+          // koppierar den från början toma array och lägger till ett object med 3 värden i
+          setWorkOutItem([
+            ...workOutItem,
+            { setNumber: 0, repNumber: 0, textInputValue: '' },
+          ])
+        }
+      />
       <Button title="remove workout" onPress={() => RemoveExersice()}></Button>
       <Button
         title="add WorkOut"
@@ -255,6 +253,7 @@ const WorkOutFlatList = () => {
 const EnterNameModal = ({ modalVisible, setModalVisible, workOutItem }) => {
   const [workoutName, setWorkoutName] = useState('');
   const { user } = useContext(AuthContext);
+  const navigation = useNavigation();
   return (
     <Modal
       animationType="slide"
@@ -307,6 +306,7 @@ export default function Create_Workout() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+
     backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
