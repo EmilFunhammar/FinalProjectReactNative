@@ -1,5 +1,5 @@
-import React, { useState, useContext } from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import React, { useState, useContext, useEffect } from 'react';
+import { View, Text, StyleSheet, Button, SectionList } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { Auth, AuthContext } from '../Context/AuthContext';
 import {
@@ -8,34 +8,56 @@ import {
   GetUserWorkouts,
   GetOneUserWorkout,
   WorkoutSession,
+  ListenToTheWorkout2,
 } from '../Context/FIrebaseContext';
 
 export default function WorkoutSession1() {
   // fetch the workout
   //WorkoutSession()
-  const testArray = [
+  const data = [
+    { heading: 'Dairy', items: ['Milk', 'Yoghurt', 'ITEM3', 'ITEM4'] },
+  ];
+  const DATA1 = [
     {
-      id: 1,
-      sets: 0,
-      reps: 8,
-      exercise: 'Biceps',
+      title: 'Main dishes',
+      data: ['Pizza', 'Burger', 'Risotto'],
     },
     {
-      id: 2,
-      sets: 3,
-      reps: 3,
-      workout: 'legs',
+      title: 'Sides',
+      data: ['French Fries', 'Onion Rings', 'Fried Shrimps'],
     },
     {
-      id: 3,
-      sets: 4,
-      reps: 3,
-      workout: 'chest',
+      title: 'Drinks',
+      data: ['Water', 'Coke', 'Beer'],
+    },
+    {
+      title: 'Desserts',
+      data: ['Cheese Cake', 'Ice Cream'],
     },
   ];
+  const [array, setArray] = useState(data);
+
+  const [exersicesArray, setExersicesArray] = useState([]);
+
+  useEffect(() => {
+    ListenToTheWorkout2('YMOa4tregVEiNFbGp5d5', setExersicesArray);
+  }, []);
   return (
     <View style={styles.container}>
-      <FlatList
+      <Text>EMIL</Text>
+      <Text>EMIL</Text>
+      <Text>EMIL</Text>
+
+      <SectionList
+        style={{ width: '100%' }}
+        sections={[{ exercise: 'TYP AV ÖVNING', data: exersicesArray }]}
+        renderItem={({ index, item }) => (
+          <Item exersicesArray={exersicesArray} index={index} />
+        )}
+        renderSectionHeader={({ section }) => <Text>{section.exercise}</Text>}
+        keyExtractor={(item, index) => index.toString()}
+      />
+      {/* <SectionList
         style={{ backgroundColor: 'gray', width: '100%' }}
         data={testArray}
         renderItem={({ item, index }) => (
@@ -44,36 +66,39 @@ export default function WorkoutSession1() {
             sets={item.sets}
             reps={item.reps}
           />
-        )}
-        ItemSeparatorComponent={() => {
-          return (
-            <View
-              style={{
-                backgroundColor: 'transparent',
-                width: '100%',
-                height: 10,
-              }}
-            ></View>
-          );
+        )} */}
+      {/* ItemSeparatorComponent={() => {
+          <View
+            style={{
+              backgroundColor: 'transparent',
+              width: '100%',
+              height: 10,
+            }}
+          ></View>;
         }}
+      /> */}
+      <Button
+        title="show array"
+        onPress={() => console.log('array', exersicesArray)}
       />
     </View>
   );
 }
+const Item = ({ exersicesArray, index }) => (
+  <View style={styles.exerciseItem}>
+    <Text style={styles.exercise}>{exersicesArray[index].exersice}</Text>
+    {/* {exersicesArray.map(
+      (element, value) => {
+        console.log('el', { value });
+      } */}
 
-const ExerciseItem = ({ exercise, sets, reps }) => {
-  return (
-    <View style={styles.exerciseItem}>
-      <Text style={styles.exercise}>{exercise}</Text>
-      <RenderUsers sets={sets} reps={reps} />
-      <RenderUsers sets={sets} reps={reps} />
-      <RenderUsers sets={sets} reps={reps} />
-    </View>
-  );
-};
+    <Button title="emil" onPress={() => console.log(index)} />
+    <RenderUsers exersicesArray={exersicesArray} index={index} />
+    <RenderUsers exersicesArray={exersicesArray} index={index} />
+  </View>
+);
 
-const RenderUsers = ({ exercise, sets, reps }) => {
-  const { user } = useContext(AuthContext);
+const RenderUsers = ({ exersicesArray, index }) => {
   return (
     <View style={styles.setsAndReps}>
       <View style={styles.users}>
@@ -85,21 +110,22 @@ const RenderUsers = ({ exercise, sets, reps }) => {
           }}
         >
           <View style={styles.checkBox}></View>
-          <Text> {user.email}</Text>
+
+          <Text>{exersicesArray[index].users[index].user}</Text>
         </View>
       </View>
       <View style={{ flexDirection: 'row' }}>
         <NegativSignView />
         <View>
           <Text>sets</Text>
-          <Text>3/{sets}</Text>
+          <Text>3/{exersicesArray[index].users[index].sets}</Text>
         </View>
         <PlusSignView />
         <View style={{ flexDirection: 'row' }}>
           <NegativSignView />
           <View>
             <Text>reps</Text>
-            <Text>3/{reps}</Text>
+            <Text>3/{exersicesArray[index].users[index].reps}</Text>
           </View>
           <PlusSignView />
         </View>
@@ -137,8 +163,7 @@ const NegativSignView = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
-    backgroundColor: 'white',
+    backgroundColor: 'yellow',
     alignItems: 'center',
     justifyContent: 'center',
   },

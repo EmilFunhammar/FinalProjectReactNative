@@ -4,6 +4,7 @@ import 'firebase/database';
 import 'firebase/firestore';
 import 'firebase/functions';
 import 'firebase/storage';
+import { set } from 'react-native-reanimated';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBuypY79KmAfSyx-LA19KBBMryP8oN5z3A',
@@ -28,9 +29,78 @@ if (!firebase.apps.length) {
 }
 
 export const auth = firebase.auth();
+export function ListenToTheWorkout(workoutId, setArray) {
+  firebase
+    .firestore()
+    .collection('WorkoutSession')
+    .doc(workoutId)
+    .onSnapshot((doc) => {
+      setArray(doc.data().users);
+    });
 
-export function ListenToTheWorkout(workoutId) {
-  console.log('workId:', workoutId);
+  //firebase
+  //     .firestore()
+  //     .collection('WorkoutSession')
+  //     .onSnapshot((snapshot) => {
+  //       var users = { user1: snapshot.docs.map((doc) => doc.data().user1) };
+  //       //setUserArray(snapshot.docs.map((doc) => doc.data().user1))
+  //       setUserArray(users);
+  //     });
+  // {
+  //   // Listen for document metadata changes
+  //   includeMetadataChanges: true,
+  // },
+  //function (doc) {
+  //var user = [doc.data().user1, doc.data().user2, doc.data().user3];
+  // var user = {
+  //   user1: doc.data().user1,
+  //   user2: doc.data().user2,
+  //   user3: doc.data().user3,
+  // };
+}
+export function ListenToTheWorkout2(workoutId, setArray) {
+  firebase
+    .firestore()
+    .collection('WorkoutSession')
+    .doc(workoutId)
+    .collection('Exersices')
+    .onSnapshot(function (querySnapshot) {
+      var cities = [];
+
+      querySnapshot.forEach(function (doc) {
+        let docs = doc.data();
+        let document = {
+          exersice: docs.exercise,
+          users: docs.users,
+          reps: docs.reps,
+          sets: docs.sets,
+        };
+        cities.push(document);
+      });
+      setArray(cities);
+    });
+}
+
+//.onSnapshot(function (doc) {
+//console.log('Current data: ', doc.data().user1);
+// var user = {
+//   user1: doc.data().user1,
+//   user2: doc.data().user2,
+//   user3: doc.data().user3,
+// };
+// var user = [doc.data().user1, doc.data().user2, doc.data().user3];
+// console.log('users', user);
+// users.push(user);
+//console.log('userArray', users);
+//setArray(userArray);
+//});
+//console.log('userArray', array);
+//console.log('userArray4', users);
+//setArray(users);
+//}
+
+export function ListenToTheWorkout1(workoutId, setArray) {
+  let array = [];
   let ref = firebase
     .firestore()
     .collection('WorkoutSession')
@@ -41,19 +111,24 @@ export function ListenToTheWorkout(workoutId) {
     var Exersices = [];
     querySnapshot.forEach(function (doc) {
       Exersices.push(doc.data().sets);
+      var userInfo = {
+        user1Id: doc.data().userEmail,
+        user2Id: doc.data().userEmail2,
+      };
+
+      array.push(userInfo);
     });
-    console.log('Current cities in CA: ', Exersices.join(', '));
+    //console.log('Current sets: ', Exersices.join(', '));
+    console.log('array1', array);
   });
 }
 
-export function AddUserToWorkout() {
-  firebase
-    .firestore()
-    .collection('WorkoutSession')
-    .doc(workoutId)
-    .collection()
-    .doc()
-    .set({})
+export function AddUserToWorkout(workoutId, userEmail) {
+  let ref = firebase.firestore().collection('WorkoutSession').doc(workoutId);
+  ref
+    .update({
+      users: firebase.firestore.FieldValue.arrayUnion(userEmail),
+    })
     .then(function () {
       console.log('Document successfully written!');
     })
@@ -61,32 +136,31 @@ export function AddUserToWorkout() {
 }
 
 export function AddWorkoutSession(userEmail, workoutId, exersicesArray) {
+  console.log('inne i firebase');
+  //let snapshotArray = [];
   let ref = firebase
     .firestore()
     .collection('WorkoutSession')
     .doc(workoutId)
     .collection('Exersices');
-  //.collection('Workouts')
-  //.doc();
-  //ref.set({ workoutName: workoutName });
-  // loopa för att skapa nya exersices
   var i;
   for (i = 0; i < exersicesArray.length; i++) {
     console.log('ex id:', exersicesArray[i].id);
     ref
-
       .doc(exersicesArray[i].id)
       .set({
         userEmail: userEmail,
         exercise: exersicesArray[i].exercise,
         sets: exersicesArray[i].sets,
         reps: exersicesArray[i].reps,
+        // add more?
       })
       .then(function () {
         console.log('Document successfully written!');
       })
       .catch((error) => console.log('error', error));
   }
+  console.log('finish?');
 }
 
 export function WorkoutSession(userId, workoutName) {
@@ -152,6 +226,7 @@ export function GetUserWorkouts(userId, setUserWorkoutsArray) {
         var OneWorkout = { id: doc.id, name: doc.data().workoutName };
         WorkoutArray.push(OneWorkout);
       });
+
       //console.log('WorkoutArray1', WorkoutArray);
       setUserWorkoutsArray(WorkoutArray);
     });

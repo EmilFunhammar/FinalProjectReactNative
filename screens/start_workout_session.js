@@ -5,10 +5,52 @@ import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { unstable_renderSubtreeIntoContainer } from 'react-dom';
 import { ListenToTheWorkout } from '../Context/FIrebaseContext';
+import { useEffect } from 'react';
+import firebase, { firestore } from 'firebase';
 
 export default function StartWorkout() {
+  const [userArray, setUserArray] = useState([]);
   const navigation = useNavigation();
-  ListenToTheWorkout('YMOa4tregVEiNFbGp5d5');
+
+  // function getUsers() {
+  //   firebase
+  //     .firestore()
+  //     .collection('WorkoutSession')
+  //     .doc('YMOa4tregVEiNFbGp5d5')
+  //     .onSnapshot(
+  //       {
+  //         // Listen for document metadata changes
+  //         includeMetadataChanges: true,
+  //       },
+  //       function (doc) {
+  //         var user = {
+  //           user1: doc.data().user1,
+  //           user2: doc.data().user2,
+  //           user3: doc.data().user3,
+  //         };
+
+  //         setUserArray(user);
+  //       }
+  //     );
+  //ListenToTheWorkout('YMOa4tregVEiNFbGp5d5', setUserArray);
+  //}
+
+  useEffect(() => {
+    ListenToTheWorkout('YMOa4tregVEiNFbGp5d5', setUserArray);
+    console.log('emil', userArray);
+  }, []);
+  //   firebase
+  //     .firestore()
+  //     .collection('WorkoutSession')
+  //     .onSnapshot((snapshot) => {
+  //       var users = { user1: snapshot.docs.map((doc) => doc.data().user1) };
+  //       //setUserArray(snapshot.docs.map((doc) => doc.data().user1))
+  //       setUserArray(users);
+  //     });
+  // }, []);
+  // useEffect(() => {
+  //   getUsers();
+  // });
   return (
     <View style={styles.container}>
       <View>
@@ -22,9 +64,18 @@ export default function StartWorkout() {
           >
             workout name
           </Text>
+          {/* {userArray.map(({ user1 }) => console.log('emil'))} */}
         </View>
         {/* <Text style={styles.participant_text}>Participant:</Text> */}
         <View style={styles.participant_view}>
+          {userArray.map((element, index) => (
+            <ParticipantView key={index} element={element} />
+          ))}
+
+          <Button
+            title="check array"
+            onPress={() => console.log('arrat i start', userArray)}
+          />
           {/* <ParticipantView />
           <ParticipantView />
           <ParticipantView /> */}
@@ -56,13 +107,10 @@ export default function StartWorkout() {
   );
 }
 
-const ParticipantView = () => {
-  const { user } = useContext(AuthContext);
-  const [users, setUsers] = useState(['user1', 'user2', 'user3']);
-
+const ParticipantView = ({ element }) => {
   return (
     <>
-      <Text style={styles.participant_text}>{users[0]}</Text>
+      <Text style={styles.participant_text}>{element}</Text>
       <View style={styles.line_view}></View>
     </>
   );

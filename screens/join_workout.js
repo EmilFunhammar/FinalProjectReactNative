@@ -2,11 +2,13 @@ import React, { useState, useContext } from 'react';
 import { AuthContext } from '../Context/AuthContext';
 import { View, Text, Button, StyleSheet } from 'react-native';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
-
+import { useNavigation } from '@react-navigation/native';
+import { AddUserToWorkout } from '../Context/FIrebaseContext';
 export default function joinWorkot() {
+  const { user } = useContext(AuthContext);
   const navigation = useNavigation();
   let workoutCode = '';
+  //YMOa4tregVEiNFbGp5d5
   return (
     <View style={styles.container}>
       <View>
@@ -34,7 +36,7 @@ export default function joinWorkot() {
         <TouchableOpacity
           style={styles.buttons}
           onPress={() => {
-            workoutCode;
+            //AddUserToWorkout(workoutCode, user.email);
           }}
         >
           <Text style={styles.buttons_text}>Join workout</Text>

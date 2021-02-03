@@ -4,17 +4,15 @@ import {
   Text,
   TouchableOpacity,
   View,
-  ScrollView,
-  ImageBackground,
   Button,
   FlatList,
   Alert,
   Modal,
 } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
-import { set } from 'react-native-reanimated';
-import { useState, useContext } from 'react/cjs/react.development';
-import { SaveUserWorkOut, Test } from '../Context/FIrebaseContext';
+//import { set } from 'react-native-reanimated';
+import { useState, useContext, useEffect } from 'react/cjs/react.development';
+import { SaveUserWorkOut } from '../Context/FIrebaseContext';
 import { AuthContext } from '../Context/AuthContext';
 import { useNavigation } from '@react-navigation/native';
 
@@ -26,24 +24,26 @@ const SetNumberView = ({ setSetNumber, setNumber }) => {
         activeOpacity={0.8}
       >
         <View
+          // eslint-disable-next-line react-native/no-inline-styles
           style={{
             ...styles.create_workout_add_and_remove,
             borderTopLeftRadius: 10,
             borderBottomLeftRadius: 10,
           }}
         >
-          <Text style={{ fontSize: 30 }}>-</Text>
+          <Text style={styles.text_minus_and_plus_sign}>-</Text>
         </View>
       </TouchableOpacity>
       <View style={styles.create_workout_number}>
-        <Text style={{ fontSize: 12 }}>Reps</Text>
-        <Text style={{ fontSize: 22 }}>{setNumber}</Text>
+        <Text style={styles.text_set_and_rep}>Reps</Text>
+        <Text style={styles.text_set_and_rep_value}>{setNumber}</Text>
       </View>
       <TouchableOpacity
         onPress={() => setSetNumber(setNumber + 1)}
         activeOpacity={0.8}
       >
         <View
+          // eslint-disable-next-line react-native/no-inline-styles
           style={{
             ...styles.create_workout_add_and_remove,
             borderBottomRightRadius: 10,
@@ -51,7 +51,7 @@ const SetNumberView = ({ setSetNumber, setNumber }) => {
             marginRight: -5,
           }}
         >
-          <Text style={{ fontSize: 30 }}>+</Text>
+          <Text style={styles.text_minus_and_plus_sign}>+</Text>
         </View>
       </TouchableOpacity>
     </>
@@ -66,18 +66,19 @@ const RepNumberView = ({ setRepNumber, repNumber }) => {
         activeOpacity={0.8}
       >
         <View
+          // eslint-disable-next-line react-native/no-inline-styles
           style={{
             ...styles.create_workout_add_and_remove,
             borderBottomLeftRadius: 10,
             borderTopStartRadius: 10,
           }}
         >
-          <Text style={{ fontSize: 30 }}>-</Text>
+          <Text style={styles.text_minus_and_plus_sign}>-</Text>
         </View>
       </TouchableOpacity>
       <View style={styles.create_workout_number}>
-        <Text style={{ fontSize: 12 }}>Sets</Text>
-        <Text style={{ fontSize: 22 }}>{repNumber}</Text>
+        <Text style={styles.text_set_and_rep}>Sets</Text>
+        <Text style={styles.text_set_and_rep_value}>{repNumber}</Text>
       </View>
       <TouchableOpacity
         onPress={() => {
@@ -86,6 +87,7 @@ const RepNumberView = ({ setRepNumber, repNumber }) => {
         activeOpacity={0.8}
       >
         <View
+          // eslint-disable-next-line react-native/no-inline-styles
           style={{
             ...styles.create_workout_add_and_remove,
             borderBottomRightRadius: 10,
@@ -93,7 +95,7 @@ const RepNumberView = ({ setRepNumber, repNumber }) => {
             marginRight: 10,
           }}
         >
-          <Text style={{ fontSize: 30 }}>+</Text>
+          <Text style={styles.text_minus_and_plus_sign}>+</Text>
         </View>
       </TouchableOpacity>
     </>
@@ -104,11 +106,12 @@ const WorkOutTextInputView = ({ setTextInputValue, textInputValue, id }) => {
   return (
     <>
       <TextInput
+        // eslint-disable-next-line react-native/no-inline-styles
         style={{ marginLeft: 5 }}
         onChangeText={(text) => setTextInputValue(text)}
         placeholder="Enter workout exercise:"
         placeholderTextColor="black"
-      ></TextInput>
+      />
     </>
   );
 };
@@ -141,14 +144,8 @@ const CreateWorkoutItem = ({
           </Text> */}
 
         <View style={styles.create_workout_view}>
-          <RepNumberView
-            setRepNumber={setRepNumber}
-            repNumber={repNumber}
-          ></RepNumberView>
-          <SetNumberView
-            setSetNumber={setSetNumber}
-            setNumber={setNumber}
-          ></SetNumberView>
+          <RepNumberView setRepNumber={setRepNumber} repNumber={repNumber} />
+          <SetNumberView setSetNumber={setSetNumber} setNumber={setNumber} />
         </View>
       </View>
     </View>
@@ -157,6 +154,7 @@ const CreateWorkoutItem = ({
 
 const WorkOutFlatList = () => {
   const { user } = useContext(AuthContext);
+  const navigation = useNavigation();
 
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -204,7 +202,7 @@ const WorkOutFlatList = () => {
   return (
     <>
       <FlatList
-        style={{ backgroundColor: '#3F7134', width: '100%' }}
+        style={styles.flatlist}
         data={workOutItem}
         renderItem={({ item, index }) => (
           <CreateWorkoutItem
@@ -214,10 +212,10 @@ const WorkOutFlatList = () => {
             repNumber={item.repNumber}
             setNumber={item.setNumber}
             textInputValue={item.textInputValue}
-          ></CreateWorkoutItem>
+          />
         )}
         keyExtractor={(item, index) => index.toString()}
-      ></FlatList>
+      />
 
       <EnterNameModal
         setModalVisible={setModalVisible}
@@ -234,7 +232,7 @@ const WorkOutFlatList = () => {
           ])
         }
       />
-      <Button title="remove workout" onPress={() => RemoveExersice()}></Button>
+      <Button title="remove workout" onPress={() => RemoveExersice()} />
       <Button
         title="add WorkOut"
         onPress={() => {
@@ -245,7 +243,7 @@ const WorkOutFlatList = () => {
           //navigation.navigate('Choose_Workout');
           // navigation här
         }}
-      ></Button>
+      />
     </>
   );
 };
@@ -254,6 +252,7 @@ const EnterNameModal = ({ modalVisible, setModalVisible, workOutItem }) => {
   const [workoutName, setWorkoutName] = useState('');
   const { user } = useContext(AuthContext);
   const navigation = useNavigation();
+
   return (
     <Modal
       animationType="slide"
@@ -263,19 +262,7 @@ const EnterNameModal = ({ modalVisible, setModalVisible, workOutItem }) => {
         Alert.alert('Modal has been closed.');
       }}
     >
-      <View
-        style={{
-          position: 'absolute',
-          top: '45%',
-          left: '15%',
-          backgroundColor: 'white',
-          height: 120,
-          width: 300,
-          borderRadius: 20,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
+      <View style={styles.modal}>
         <TextInput
           placeholder="Enter Workout Name:"
           onChangeText={(text) => {
@@ -283,13 +270,13 @@ const EnterNameModal = ({ modalVisible, setModalVisible, workOutItem }) => {
           }}
         />
         <Button
-          title="Add workout"
+          title="Add workout1"
           onPress={() => {
-            setModalVisible(false);
             SaveUserWorkOut(user.uid, workOutItem, workoutName);
+            setModalVisible(false);
             navigation.navigate('Choose_Workout');
           }}
-        ></Button>
+        />
       </View>
     </Modal>
   );
@@ -297,7 +284,7 @@ const EnterNameModal = ({ modalVisible, setModalVisible, workOutItem }) => {
 
 export default function Create_Workout() {
   return (
-    <View style={{ ...styles.container, backgroundColor: 'white' }}>
+    <View style={styles.container}>
       <WorkOutFlatList />
     </View>
   );
@@ -335,8 +322,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     height: 40,
-
-    width: 30,
   },
   card_view: {
     marginTop: 10,
@@ -345,23 +330,47 @@ const styles = StyleSheet.create({
     marginRight: 5,
     backgroundColor: 'gray',
   },
+  flatlist: {
+    backgroundColor: '#3F7134',
+    width: '100%',
+  },
+  modal: {
+    position: 'absolute',
+    top: '45%',
+    left: '15%',
+    backgroundColor: 'yellow',
+    height: 120,
+    width: 300,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  text_minus_and_plus_sign: {
+    fontSize: 30,
+  },
+  text_set_and_rep: {
+    fontSize: 12,
+  },
+  text_set_and_rep_value: {
+    fontSize: 22,
+  },
 });
 
-const WorkoutsScrollView = ({}) => {
-  return (
-    <ScrollView style={{ backgroundColor: '#3F7134', width: '100%' }}>
-      <View style={{ justifyContent: 'space-evenly' }}>
-        <Button
-          title="add Exercise"
-          onPress={() => console.log('add exercise')}
-        ></Button>
-        <CreateWorkoutItem></CreateWorkoutItem>
+// const WorkoutsScrollView = ({}) => {
+//   return (
+//     <ScrollView style={{ backgroundColor: '#3F7134', width: '100%' }}>
+//       <View style={{ justifyContent: 'space-evenly' }}>
+//         <Button
+//           title="add Exercise"
+//           onPress={() => console.log('add exercise')}
+//         ></Button>
+//         <CreateWorkoutItem></CreateWorkoutItem>
 
-        <Button
-          title="add WorkOut"
-          onPress={() => console.log('add WorkOut')}
-        ></Button>
-      </View>
-    </ScrollView>
-  );
-};
+//         <Button
+//           title="add WorkOut"
+//           onPress={() => console.log('add WorkOut')}
+//         ></Button>
+//       </View>
+//     </ScrollView>
+//   );
+// };

@@ -1,184 +1,120 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import {
   Button,
   FlatList,
-  ImageBackground,
   Modal,
   SafeAreaView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
+  Alert,
 } from 'react-native';
 import { AuthContext } from '../Context/AuthContext';
 import { useNavigation } from '@react-navigation/native';
 
 import {
-  SaveUser,
-  SaveUserWorkOut,
+  //SaveUser,
+  //SaveUserWorkOut,
   GetUserWorkouts,
-  GetOneUserWorkout,
-  WorkoutSession,
+  //GetOneUserWorkout,
+  //WorkoutSession,
   GetUserWorkout,
   AddWorkoutSession,
 } from '../Context/FIrebaseContext';
 
-const WorkoutItem = ({ itemTitle, workoutModal, itemImage, itemId }) => {
+const EnterNameModal = ({
+  modalVisible,
+  setModalVisible,
+  exersicesArray,
+  workoutId,
+  workoutTitle,
+}) => {
+  //const [workoutName, setWorkoutName] = useState('');
   const { user } = useContext(AuthContext);
-  const [exersicesArray, setExersicesArray] = useState([]);
+  const navigation = useNavigation();
+  //const { user } = useContext(AuthContext);
+  //console.log(workoutTitle);
   return (
-    <TouchableOpacity
-      onLongPress={() => {
-        GetUserWorkout(itemId, user.uid, setExersicesArray);
-
-        // sholud contain all the exersices and the id to the exersice
-
-        //
-        //itemTitle;
-        // itemId; // the id of the workout
-
-        //console.log('exersicearry', exersicesArray);
-        //console.log('long press', itemId);
-        //console.log('long press', itemTitle);
-      }}
-      onPress={() => {
-        console.log('exarray', exersicesArray);
-        AddWorkoutSession(user.email, itemId, exersicesArray);
-        // tar upp modal
-        //workoutModal(true);
+    <Modal
+      animationType="slide"
+      transparent={true}
+      visible={modalVisible}
+      onRequestClose={() => {
+        Alert.alert('Modal has been closed.');
       }}
     >
-      <View
-        //source={{ uri: imageName }}
-        //source={require('../assets/1.jpg')}
-        style={styles.workout_item}
-        imageStyle={{ borderRadius: 20 }}
-      >
-        <Text style={styles.workout_item_text}>{itemTitle}</Text>
-      </View>
-
-      {/* <ImageBackground
-        //source={{ uri: imageName }}
-        source={require('../assets/1.jpg')}
-        style={styles.workout_item}
-        imageStyle={{ borderRadius: 20 }}
-      >
-        <Text style={styles.workout_item_text}>{itemTitle}</Text>
-      </ImageBackground> */}
-    </TouchableOpacity>
-  );
-};
-
-// const WorkoutDecriptionItem = ({ itemWorkout }) => {
-//   return (
-//     <View>
-//       <Text>{itemWorkout}</Text>
-//       <Text>emil</Text>
-//     </View>
-//   );
-// };
-const ModalW = ({
-  workoutModal,
-  setWorkoutModal,
-  allWorkoutsArray,
-  workoutArrat,
-}) => {
-  const navigation = useNavigation();
-  return (
-    <Modal visible={workoutModal} transparent>
-      <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-        <View style={styles.workout_modal}>
-          <Text></Text>
-          <Text>emil</Text>
-          <Text>emil</Text>
-          <Text>emil</Text>
-          <Text>emil</Text>
-          <Text>emil</Text>
-          <Text>emil</Text>
-          <Button
-            title="Use workout"
-            onPress={() => {
-              // upLoad the choosen workout to a new firebse collection
-              setWorkoutModal(false);
-              navigation.navigate('start_workout');
-            }}
-          ></Button>
-          <Button
-            title="Cancel"
-            onPress={() => {
-              setWorkoutModal(false);
-            }}
-          ></Button>
-        </View>
+      <View style={styles.modal}>
+        {/* <Text>{workoutTitle}</Text> */}
+        <Button
+          title="use worout1"
+          onPress={() => {
+            console.log('id', workoutId);
+            console.log('id');
+            console.log('id');
+            AddWorkoutSession(user.email, workoutId, exersicesArray);
+            setModalVisible(false);
+            //navigation.navigate('start_workout');
+          }}
+        />
       </View>
     </Modal>
   );
 };
 
-export default function Workout() {
-  const [workoutModal, setWorkoutModal] = useState(false);
-  const [isbool, setBool] = useState(false);
+const WorkoutItem = ({ modalVisible, setModalVisible, itemTitle, itemId }) => {
   const { user } = useContext(AuthContext);
+  const [exersicesArray, setExersicesArray] = useState([]);
 
-  // fetch all the workOuts
-  // const workoutArrat = [
-  //   { id: 1, workout: 'workout1' },
-  //   { id: 2, workout: 'workout2' },
-  //   { id: 3, workout: 'workout3' },
-  //   { id: 4, workout: 'workout4' },
-  //   { id: 5, workout: 'workout5' },
-  //   { id: 6, workout: 'workout6' },
-  //   { id: 7, workout: 'workout7' },
-  //   { id: 8, workout: 'workout8' },
-  //   { id: 9, workout: 'workout9' },
-  //   { id: 10, workout: 'workout10' },
-  //   { id: 11, workout: 'workout11' },
-  //   { id: 12, workout: 'workout12' },
-  //   { id: 13, workout: 'workout13' },
-  // ];
-  // const allWorkoutsArray = [
-  //   { id: 1, title: 'back and neck' },
-  //   { id: 2, title: 'Biceps' },
-  //   { id: 3, title: 'Biceps' },
-  //   { id: 4, title: 'Biceps' },
-  //   { id: 5, title: 'Biceps' },
-  //   { id: 6, title: 'Biceps' },
-  //   { id: 7, title: 'Bicesdsdps' },
-  //   { id: 8, title: 'Biceps' },
-  //   { id: 9, title: 'Biceps' },
-  //   { id: 10, title: 'Biceps' },
-  // ];
-  const [UserWorkoutsArray, setUserWorkoutsArray] = useState([]);
-  // sätt på igen när du får läsa
-  //GetUserWorkouts(user.uid, setUserWorkoutsArray);
+  useEffect(() => {});
 
   return (
-    <SafeAreaView style={{ width: '100%' }}>
+    <TouchableOpacity
+      onLongPress={() => {}}
+      onPress={() => {
+        setModalVisible(true);
+        console.log(itemTitle);
+      }}
+    >
+      <EnterNameModal
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        exersicesArray={exersicesArray}
+        workoutId={itemId}
+        workoutTitle={itemTitle}
+      />
+      <View style={styles.workout_item}>
+        <Text style={styles.workout_item_text}>{itemTitle}</Text>
+      </View>
+    </TouchableOpacity>
+  );
+};
+
+export default function Workout() {
+  const { user } = useContext(AuthContext);
+  const [modalVisible, setModalVisible] = useState(false);
+
+  // const loadData = async () => {
+  //   await GetUserWorkouts(user.uid, setUserWorkoutsArray);
+  // };
+  // useEffect(() => {
+  //   loadData();
+  // }, []);
+
+  const [UserWorkoutsArray, setUserWorkoutsArray] = useState([]);
+
+  return (
+    <SafeAreaView>
       <View style={styles.workout}>
-        <ModalW
-          visible={workoutModal}
-          setWorkoutModal={setWorkoutModal}
-          workoutModal={workoutModal}
-          //allWorkoutsArray={allWorkoutsArray}
-          // workoutArrat={workoutArrat}
-        >
-          {/* <FlatList
-            style={styles.flatListworkout}
-            data={workoutArrat}
-            renderItem={({ item, index }) => (
-              <WorkoutDecriptionItem itemWorkout={item.workout} />
-            )}
-          ></FlatList> */}
-        </ModalW>
         <FlatList
           style={styles.flatListworkout}
           data={UserWorkoutsArray}
           renderItem={({ index, item }) => (
             <WorkoutItem
+              modalVisible={modalVisible}
+              setModalVisible={setModalVisible}
               itemTitle={item.name}
               itemId={item.id}
-              //itemImage={item.image}
-              workoutModal={setWorkoutModal}
             />
           )}
           ItemSeparatorComponent={() => {
@@ -189,7 +125,7 @@ export default function Workout() {
                   width: '100%',
                   height: 30,
                 }}
-              ></View>
+              />
             );
           }}
           keyExtractor={(item, index) => index.toString()}
@@ -197,7 +133,7 @@ export default function Workout() {
         <Button
           title="read"
           onPress={() => GetUserWorkouts(user.uid, setUserWorkoutsArray)}
-        ></Button>
+        />
       </View>
     </SafeAreaView>
   );
@@ -209,10 +145,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'white',
   },
   workout: {
-    backgroundColor: 'red',
     height: '100%',
     width: '100%',
   },
@@ -245,5 +179,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderTopEndRadius: 20,
     borderTopStartRadius: 20,
+  },
+  modal: {
+    position: 'absolute',
+    top: '45%',
+    left: '15%',
+    backgroundColor: 'white',
+    height: 120,
+    width: 300,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
