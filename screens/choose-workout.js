@@ -22,19 +22,22 @@ import {
   GetUserWorkout,
   AddWorkoutSession,
 } from '../Context/FIrebaseContext';
+import { TextInput } from 'react-native-gesture-handler';
 
 const EnterNameModal = ({
   modalVisible,
   setModalVisible,
-  exersicesArray,
+  //exersicesArray,
   workoutId,
   workoutTitle,
 }) => {
   //const [workoutName, setWorkoutName] = useState('');
+  const [exersicesArray, setExersicesArray] = useState([]);
   const { user } = useContext(AuthContext);
   const navigation = useNavigation();
   //const { user } = useContext(AuthContext);
   //console.log(workoutTitle);
+  const [kod, setkod] = useState('');
   return (
     <Modal
       animationType="slide"
@@ -46,13 +49,22 @@ const EnterNameModal = ({
     >
       <View style={styles.modal}>
         {/* <Text>{workoutTitle}</Text> */}
+        <TextInput
+          placeholder="ange kod:"
+          onChangeText={(text) => setkod(text)}
+        />
+
         <Button
           title="use worout1"
           onPress={() => {
-            console.log('id', workoutId);
-            console.log('id');
-            console.log('id');
-            AddWorkoutSession(user.email, workoutId, exersicesArray);
+            //console.log(kod);
+            //console.log('tiyle', workoutTitle);
+            //console.log('ex aray', exersicesArray);
+            GetUserWorkout(workoutId, user.uid, setExersicesArray);
+            setTimeout(() => {
+              AddWorkoutSession(user.email, kod, exersicesArray);
+            }, 5000);
+
             setModalVisible(false);
             //navigation.navigate('start_workout');
           }}
@@ -64,22 +76,22 @@ const EnterNameModal = ({
 
 const WorkoutItem = ({ modalVisible, setModalVisible, itemTitle, itemId }) => {
   const { user } = useContext(AuthContext);
-  const [exersicesArray, setExersicesArray] = useState([]);
+  //const [exersicesArray, setExersicesArray] = useState([]);
 
-  useEffect(() => {});
+  //useEffect(() => {});
 
   return (
     <TouchableOpacity
       onLongPress={() => {}}
       onPress={() => {
         setModalVisible(true);
-        console.log(itemTitle);
+        // GetUserWorkout(itemId, user.uid, setExersicesArray);
       }}
     >
       <EnterNameModal
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
-        exersicesArray={exersicesArray}
+        //exersicesArray={exersicesArray}
         workoutId={itemId}
         workoutTitle={itemTitle}
       />

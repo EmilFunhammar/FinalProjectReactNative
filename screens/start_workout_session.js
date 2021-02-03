@@ -1,56 +1,27 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../Context/AuthContext';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, Text, Button, StyleSheet, Modal } from 'react-native';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { unstable_renderSubtreeIntoContainer } from 'react-dom';
-import { ListenToTheWorkout } from '../Context/FIrebaseContext';
+import {
+  ListenToTheWorkout,
+  AddUserToWorkout,
+} from '../Context/FIrebaseContext';
 import { useEffect } from 'react';
 import firebase, { firestore } from 'firebase';
 
 export default function StartWorkout() {
   const [userArray, setUserArray] = useState([]);
   const navigation = useNavigation();
+  const [modalVisible, setModalVisible] = useState(true);
+  const [accsesCode, setAccsesCode] = useState('');
 
-  // function getUsers() {
-  //   firebase
-  //     .firestore()
-  //     .collection('WorkoutSession')
-  //     .doc('YMOa4tregVEiNFbGp5d5')
-  //     .onSnapshot(
-  //       {
-  //         // Listen for document metadata changes
-  //         includeMetadataChanges: true,
-  //       },
-  //       function (doc) {
-  //         var user = {
-  //           user1: doc.data().user1,
-  //           user2: doc.data().user2,
-  //           user3: doc.data().user3,
-  //         };
-
-  //         setUserArray(user);
-  //       }
-  //     );
-  //ListenToTheWorkout('YMOa4tregVEiNFbGp5d5', setUserArray);
-  //}
-
-  useEffect(() => {
-    ListenToTheWorkout('YMOa4tregVEiNFbGp5d5', setUserArray);
-    console.log('emil', userArray);
-  }, []);
-  //   firebase
-  //     .firestore()
-  //     .collection('WorkoutSession')
-  //     .onSnapshot((snapshot) => {
-  //       var users = { user1: snapshot.docs.map((doc) => doc.data().user1) };
-  //       //setUserArray(snapshot.docs.map((doc) => doc.data().user1))
-  //       setUserArray(users);
-  //     });
-  // }, []);
   // useEffect(() => {
-  //   getUsers();
-  // });
+  //   ListenToTheWorkout('A', setUserArray);
+  // }, []);
+  const { user } = useContext(AuthContext);
+
   return (
     <View style={styles.container}>
       <View>
@@ -64,6 +35,26 @@ export default function StartWorkout() {
           >
             workout name
           </Text>
+          <Modal
+            animationType="slide"
+            transparent={false}
+            visible={modalVisible}
+          >
+            <View style={styles.modal}>
+              <TextInput
+                placeholder="Enter accses code"
+                onChangeText={(text) => setAccsesCode(text)}
+              />
+              <Button
+                title="emil"
+                onPress={() => {
+                  setModalVisible(false);
+                  AddUserToWorkout(accsesCode, user.email);
+                  ListenToTheWorkout('skräp', accsesCode, setUserArray);
+                }}
+              />
+            </View>
+          </Modal>
           {/* {userArray.map(({ user1 }) => console.log('emil'))} */}
         </View>
         {/* <Text style={styles.participant_text}>Participant:</Text> */}
@@ -119,7 +110,6 @@ const ParticipantView = ({ element }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'yellow',
     justifyContent: 'space-between',
     backgroundColor: 'white',
   },
@@ -168,5 +158,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     marginBottom: 10,
     fontSize: 18,
+  },
+  modal: {
+    position: 'absolute',
+    top: '45%',
+    left: '15%',
+    backgroundColor: 'gray',
+    height: 120,
+    width: 300,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

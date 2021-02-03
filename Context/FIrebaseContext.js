@@ -29,7 +29,8 @@ if (!firebase.apps.length) {
 }
 
 export const auth = firebase.auth();
-export function ListenToTheWorkout(workoutId, setArray) {
+export function ListenToTheWorkout(garbage, workoutId, setArray) {
+  console.log(garbage);
   firebase
     .firestore()
     .collection('WorkoutSession')
@@ -136,8 +137,8 @@ export function AddUserToWorkout(workoutId, userEmail) {
 }
 
 export function AddWorkoutSession(userEmail, workoutId, exersicesArray) {
+  console.log('ex array', exersicesArray);
   console.log('inne i firebase');
-  //let snapshotArray = [];
   let ref = firebase
     .firestore()
     .collection('WorkoutSession')
@@ -185,6 +186,7 @@ export function WorkoutSession(userId, workoutName) {
 
 export function GetUserWorkout(workoutId, userId, setExersicesArray) {
   let exersicesArray = [];
+  console.log(workoutId, userId);
   firebase
     .firestore()
     .collection('UserWorkouts')
@@ -201,11 +203,12 @@ export function GetUserWorkout(workoutId, userId, setExersicesArray) {
           sets: doc.data().sets,
           reps: doc.data().reps,
         };
-        console.log('inne i', OneExerscise);
+        //console.log('inne i', OneExerscise);
         exersicesArray.push(OneExerscise);
       });
-      console.log('emil', exersicesArray);
+      //console.log('emil', exersicesArray);
       setExersicesArray(exersicesArray);
+      console.log('set ex', exersicesArray);
     })
     .catch(function (error) {
       console.log('Error getting document:', error);
