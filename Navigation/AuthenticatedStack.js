@@ -13,24 +13,24 @@ const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
-    <Tab.Navigator initialRouteName="Choose_Workout">
-      {/* <Tab.Screen name="U" component={Utveckling} /> */}
-      <Tab.Screen name="Create_Workout" component={Create_Workout} />
-      {/* <Tab.Screen name="Choose_Workout" component={Workout} /> */}
+    <Stack.Navigator initialRouteName="Choose_Workout">
+      {/* <Stack.Screen name="U" component={Utveckling} /> */}
+      <Stack.Screen name="Create_Workout" component={Create_Workout} />
       <Stack.Screen name="Choose_Workout" component={Workout} />
-      <Tab.Screen name="Workout_session" component={WorkoutSession} />
-      <Tab.Screen name="start_workout" component={StartWorkout} />
-      <Tab.Screen name="join_workout" component={joinWorkot} />
-      {/* <Tab.Screen name="shared_screen" component={SharedScreen} /> */}
-    </Tab.Navigator>
+      <Stack.Screen name="Workout_session" component={WorkoutSession} />
+      <Stack.Screen name="start_workout" component={StartWorkout} />
+      {/* <Stack.Screen name="join_workout" component={joinWorkot} /> */}
+    </Stack.Navigator>
   );
-
-  //   <Stack.Navigator initialRouteName="Choose_Workout">
-  //   <Stack.Screen name="U" component={Utveckling} />
-  //   <Stack.Screen name="Create_Workout" component={Create_Workout} />
-  //   <Stack.Screen name="Choose_Workout" component={Workout} />
-  //   <Stack.Screen name="Workout_session" component={WorkoutSession} />
-  //   <Stack.Screen name="start_workout" component={StartWorkout} />
-  //   <Stack.Screen name="join_workout" component={joinWorkot} />
-  // </Stack.Navigator>
 }
+
+// <Tab.Navigator initialRouteName="Choose_Workout">
+//   {/* <Tab.Screen name="U" component={Utveckling} /> */}
+//   <Tab.Screen name="Create_Workout" component={Create_Workout} />
+//   {/* <Tab.Screen name="Choose_Workout" component={Workout} /> */}
+//   <Stack.Screen name="Choose_Workout" component={Workout} />
+//   <Tab.Screen name="Workout_session" component={WorkoutSession} />
+//   <Tab.Screen name="start_workout" component={StartWorkout} />
+//   <Tab.Screen name="join_workout" component={joinWorkot} />
+//   {/* <Tab.Screen name="shared_screen" component={SharedScreen} /> */}
+// </Tab.Navigator>

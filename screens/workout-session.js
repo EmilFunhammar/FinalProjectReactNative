@@ -9,46 +9,30 @@ import {
   GetOneUserWorkout,
   WorkoutSession,
   ListenToTheWorkout2,
+  ListenToTheWorkout1,
 } from '../Context/FIrebaseContext';
 
 export default function WorkoutSession1() {
-  // fetch the workout
-  //WorkoutSession()
-  const data = [
-    { heading: 'Dairy', items: ['Milk', 'Yoghurt', 'ITEM3', 'ITEM4'] },
-  ];
-  const DATA1 = [
-    {
-      title: 'Main dishes',
-      data: ['Pizza', 'Burger', 'Risotto'],
-    },
-    {
-      title: 'Sides',
-      data: ['French Fries', 'Onion Rings', 'Fried Shrimps'],
-    },
-    {
-      title: 'Drinks',
-      data: ['Water', 'Coke', 'Beer'],
-    },
-    {
-      title: 'Desserts',
-      data: ['Cheese Cake', 'Ice Cream'],
-    },
-  ];
-  const [array, setArray] = useState(data);
+  const { user } = useContext(AuthContext);
+
+  //const [array, setArray] = useState(data);
 
   const [exersicesArray, setExersicesArray] = useState([]);
 
-  useEffect(() => {
-    ListenToTheWorkout2('YMOa4tregVEiNFbGp5d5', setExersicesArray);
-  }, []);
+  // useEffect(() => {
+  //   ListenToTheWorkout2('YMOa4tregVEiNFbGp5d5', setExersicesArray);
+  // }, []);
   return (
     <View style={styles.container}>
       <Text>EMIL</Text>
       <Text>EMIL</Text>
       <Text>EMIL</Text>
+      <Button
+        title="read"
+        onPress={() => ListenToTheWorkout2('Pass', setExersicesArray)}
+      />
 
-      <SectionList
+      {/* <SectionList
         style={{ width: '100%' }}
         sections={[{ exercise: 'TYP AV ÖVNING', data: exersicesArray }]}
         renderItem={({ index, item }) => (
@@ -56,27 +40,8 @@ export default function WorkoutSession1() {
         )}
         renderSectionHeader={({ section }) => <Text>{section.exercise}</Text>}
         keyExtractor={(item, index) => index.toString()}
-      />
-      {/* <SectionList
-        style={{ backgroundColor: 'gray', width: '100%' }}
-        data={testArray}
-        renderItem={({ item, index }) => (
-          <ExerciseItem
-            exercise={item.exercise}
-            sets={item.sets}
-            reps={item.reps}
-          />
-        )} */}
-      {/* ItemSeparatorComponent={() => {
-          <View
-            style={{
-              backgroundColor: 'transparent',
-              width: '100%',
-              height: 10,
-            }}
-          ></View>;
-        }}
       /> */}
+
       <Button
         title="show array"
         onPress={() => console.log('array', exersicesArray)}
@@ -94,7 +59,7 @@ const Item = ({ exersicesArray, index }) => (
 
     <Button title="emil" onPress={() => console.log(index)} />
     <RenderUsers exersicesArray={exersicesArray} index={index} />
-    <RenderUsers exersicesArray={exersicesArray} index={index} />
+    {/* <RenderUsers exersicesArray={exersicesArray} index={index} /> */}
   </View>
 );
 

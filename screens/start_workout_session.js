@@ -46,11 +46,12 @@ export default function StartWorkout() {
                 onChangeText={(text) => setAccsesCode(text)}
               />
               <Button
-                title="emil"
+                title="submit"
                 onPress={() => {
-                  setModalVisible(false);
+                  console.log(accsesCode);
                   AddUserToWorkout(accsesCode, user.email);
                   ListenToTheWorkout('skräp', accsesCode, setUserArray);
+                  setModalVisible(false);
                 }}
               />
             </View>
@@ -63,10 +64,10 @@ export default function StartWorkout() {
             <ParticipantView key={index} element={element} />
           ))}
 
-          <Button
+          {/* <Button
             title="check array"
             onPress={() => console.log('arrat i start', userArray)}
-          />
+          /> */}
           {/* <ParticipantView />
           <ParticipantView />
           <ParticipantView /> */}

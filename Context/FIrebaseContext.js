@@ -70,9 +70,10 @@ export function ListenToTheWorkout2(workoutId, setArray) {
 
       querySnapshot.forEach(function (doc) {
         let docs = doc.data();
+        console.log('data', docs);
         let document = {
           exersice: docs.exercise,
-          users: docs.users,
+          //users: docs.users,
           reps: docs.reps,
           sets: docs.sets,
         };
@@ -138,7 +139,6 @@ export function AddUserToWorkout(workoutId, userEmail) {
 
 export function AddWorkoutSession(userEmail, workoutId, exersicesArray) {
   console.log('ex array', exersicesArray);
-  console.log('inne i firebase');
   let ref = firebase
     .firestore()
     .collection('WorkoutSession')
@@ -154,7 +154,6 @@ export function AddWorkoutSession(userEmail, workoutId, exersicesArray) {
         exercise: exersicesArray[i].exercise,
         sets: exersicesArray[i].sets,
         reps: exersicesArray[i].reps,
-        // add more?
       })
       .then(function () {
         console.log('Document successfully written!');
@@ -186,7 +185,7 @@ export function WorkoutSession(userId, workoutName) {
 
 export function GetUserWorkout(workoutId, userId, setExersicesArray) {
   let exersicesArray = [];
-  console.log(workoutId, userId);
+  //console.log(workoutId, userId);
   firebase
     .firestore()
     .collection('UserWorkouts')

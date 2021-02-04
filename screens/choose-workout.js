@@ -55,18 +55,18 @@ const EnterNameModal = ({
         />
 
         <Button
-          title="use worout1"
+          title="använd Tränings Pass"
+          onLongPress={() => console.log('här', exersicesArray)}
           onPress={() => {
-            //console.log(kod);
-            //console.log('tiyle', workoutTitle);
-            //console.log('ex aray', exersicesArray);
             GetUserWorkout(workoutId, user.uid, setExersicesArray);
             setTimeout(() => {
-              AddWorkoutSession(user.email, kod, exersicesArray);
+              console.log('exersice array', exersicesArray);
+              //AddWorkoutSession(user.email, kod, exersicesArray);
+              //setModalVisible(false);
             }, 5000);
-
-            setModalVisible(false);
-            //navigation.navigate('start_workout');
+            setTimeout(() => {
+              //navigation.navigate('start_workout');
+            }, 4000);
           }}
         />
       </View>
@@ -105,6 +105,7 @@ const WorkoutItem = ({ modalVisible, setModalVisible, itemTitle, itemId }) => {
 export default function Workout() {
   const { user } = useContext(AuthContext);
   const [modalVisible, setModalVisible] = useState(false);
+  const navigation = useNavigation();
 
   // const loadData = async () => {
   //   await GetUserWorkouts(user.uid, setUserWorkoutsArray);
@@ -145,6 +146,14 @@ export default function Workout() {
         <Button
           title="read"
           onPress={() => GetUserWorkouts(user.uid, setUserWorkoutsArray)}
+        />
+        <Button
+          title="Abslut till träning"
+          onPress={() => navigation.navigate('start_workout')}
+        />
+        <Button
+          title="skapa Träning"
+          onPress={() => navigation.navigate('Create_Workout')}
         />
       </View>
     </SafeAreaView>

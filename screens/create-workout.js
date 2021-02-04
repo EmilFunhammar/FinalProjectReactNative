@@ -222,28 +222,30 @@ const WorkOutFlatList = () => {
         modalVisible={modalVisible}
         workOutItem={workOutItem}
       />
-      <Button
-        title="add Exercise"
-        onPress={() =>
-          // koppierar den från början toma array och lägger till ett object med 3 värden i
-          setWorkOutItem([
-            ...workOutItem,
-            { setNumber: 0, repNumber: 0, textInputValue: '' },
-          ])
-        }
-      />
-      <Button title="remove workout" onPress={() => RemoveExersice()} />
-      <Button
-        title="add WorkOut"
-        onPress={() => {
-          console.log('add WorkOut');
-          //SaveUserWorkOut(user.uid, workOutItem);
-          setModalVisible(true);
-          //console.log('emil');
-          //navigation.navigate('Choose_Workout');
-          // navigation här
-        }}
-      />
+      <View style={{ marginBottom: 20 }}>
+        <Button
+          title="add Exercise"
+          onPress={() =>
+            // koppierar den från början toma array och lägger till ett object med 3 värden i
+            setWorkOutItem([
+              ...workOutItem,
+              { setNumber: 0, repNumber: 0, textInputValue: '' },
+            ])
+          }
+        />
+        <Button title="remove workout" onPress={() => RemoveExersice()} />
+        <Button
+          title="add WorkOut"
+          onPress={() => {
+            console.log('add Workout');
+            //SaveUserWorkOut(user.uid, workOutItem);
+            setModalVisible(true);
+            //console.log('emil');
+            //navigation.navigate('Choose_Workout');
+            // navigation här
+          }}
+        />
+      </View>
     </>
   );
 };
@@ -270,7 +272,7 @@ const EnterNameModal = ({ modalVisible, setModalVisible, workOutItem }) => {
           }}
         />
         <Button
-          title="Add workout1"
+          title="Add workout"
           onPress={() => {
             SaveUserWorkOut(user.uid, workOutItem, workoutName);
             setModalVisible(false);
@@ -293,7 +295,6 @@ export default function Create_Workout() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
     backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
