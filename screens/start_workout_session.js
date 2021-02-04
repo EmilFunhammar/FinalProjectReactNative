@@ -11,30 +11,32 @@ import {
 import { useEffect } from 'react';
 import firebase, { firestore } from 'firebase';
 
-export default function StartWorkout() {
+export default function StartWorkout({ route }) {
   const [userArray, setUserArray] = useState([]);
   const navigation = useNavigation();
-  const [modalVisible, setModalVisible] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
   const [accsesCode, setAccsesCode] = useState('');
+  const { accses } = route.params;
 
-  // useEffect(() => {
-  //   ListenToTheWorkout('A', setUserArray);
-  // }, []);
+  useEffect(() => {
+    AddUserToWorkout(accses, user.email);
+    ListenToTheWorkout('skräp', accses, setUserArray);
+  }, []);
   const { user } = useContext(AuthContext);
 
   return (
     <View style={styles.container}>
       <View>
         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-          <Text
+          {/* <Text
             style={{
               fontWeight: 'bold',
               fontSize: 50,
               marginLeft: 10,
             }}
           >
-            workout name
-          </Text>
+            {accses}
+          </Text> */}
           <Modal
             animationType="slide"
             transparent={false}
@@ -88,7 +90,8 @@ export default function StartWorkout() {
         <TouchableOpacity
           style={styles.buttons}
           onPress={() => {
-            navigation.navigate('Workout_session');
+            console.log('acses', accsesCode);
+            navigation.navigate('Workout_session', { accses: accses });
             // add number of players to firestore
           }}
         >

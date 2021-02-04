@@ -73,10 +73,11 @@ export function ListenToTheWorkout2(workoutId, setArray) {
         console.log('data', docs);
         let document = {
           exersice: docs.exercise,
-          //users: docs.users,
+          data: docs.users,
           reps: docs.reps,
           sets: docs.sets,
         };
+        console.log('document', document);
         cities.push(document);
       });
       setArray(cities);
@@ -139,15 +140,14 @@ export function AddUserToWorkout(workoutId, userEmail) {
 
 export function AddWorkoutSession(userEmail, workoutId, exersicesArray) {
   console.log('ex array', exersicesArray);
-  let ref = firebase
-    .firestore()
-    .collection('WorkoutSession')
-    .doc(workoutId)
-    .collection('Exersices');
+  let ref = firebase.firestore().collection('WorkoutSession').doc(workoutId);
+  ref.set({ users: firebase.firestore.FieldValue.arrayUnion(userEmail) });
+
   var i;
   for (i = 0; i < exersicesArray.length; i++) {
-    console.log('ex id:', exersicesArray[i].id);
+    //console.log('ex id:', exersicesArray[i].id);
     ref
+      .collection('Exersices')
       .doc(exersicesArray[i].id)
       .set({
         userEmail: userEmail,
@@ -183,9 +183,9 @@ export function WorkoutSession(userId, workoutName) {
     );
 }
 
-export function GetUserWorkout(workoutId, userId, setExersicesArray) {
+export function GetUserWorkout(workoutId, userId, setExersicesArray, ary) {
   let exersicesArray = [];
-  //console.log(workoutId, userId);
+  //console.log('emil', workoutId);
   firebase
     .firestore()
     .collection('UserWorkouts')
@@ -204,10 +204,18 @@ export function GetUserWorkout(workoutId, userId, setExersicesArray) {
         };
         //console.log('inne i', OneExerscise);
         exersicesArray.push(OneExerscise);
+        //console.log('ex1', exersicesArray);
+
+        // console.log('ex2', ary);
       });
-      //console.log('emil', exersicesArray);
+
+      //setExersicesArray(OneExerscise);
+      //return exersicesArray;
       setExersicesArray(exersicesArray);
-      console.log('set ex', exersicesArray);
+
+      //console.log('emil', exersicesArray);
+      //setExersicesArray(exersicesArray);
+      //console.log('ary i firebase', ary);
     })
     .catch(function (error) {
       console.log('Error getting document:', error);

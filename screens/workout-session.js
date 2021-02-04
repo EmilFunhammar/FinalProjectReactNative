@@ -12,58 +12,60 @@ import {
   ListenToTheWorkout1,
 } from '../Context/FIrebaseContext';
 
-export default function WorkoutSession1() {
+export default function WorkoutSession1({ route, navigation }) {
   const { user } = useContext(AuthContext);
+  const { accses } = route.params;
 
   //const [array, setArray] = useState(data);
 
   const [exersicesArray, setExersicesArray] = useState([]);
 
-  // useEffect(() => {
-  //   ListenToTheWorkout2('YMOa4tregVEiNFbGp5d5', setExersicesArray);
-  // }, []);
+  useEffect(() => {
+    //
+    //
+    //
+    //
+    // accses
+    ListenToTheWorkout2('Ida', setExersicesArray);
+  }, []);
   return (
     <View style={styles.container}>
-      <Text>EMIL</Text>
-      <Text>EMIL</Text>
-      <Text>EMIL</Text>
-      <Button
+      {/* <Button
         title="read"
-        onPress={() => ListenToTheWorkout2('Pass', setExersicesArray)}
-      />
-
-      {/* <SectionList
-        style={{ width: '100%' }}
-        sections={[{ exercise: 'TYP AV ÖVNING', data: exersicesArray }]}
-        renderItem={({ index, item }) => (
-          <Item exersicesArray={exersicesArray} index={index} />
-        )}
-        renderSectionHeader={({ section }) => <Text>{section.exercise}</Text>}
-        keyExtractor={(item, index) => index.toString()}
+        onPress={() => ListenToTheWorkout2('Ida', setExersicesArray)}
       /> */}
 
-      <Button
-        title="show array"
-        onPress={() => console.log('array', exersicesArray)}
+      <SectionList
+        style={{ width: '100%' }}
+        //sections={[{ exercise: 'TYP AV meil ÖVNING', data: exersicesArray }]}
+        sections={exersicesArray}
+        renderItem={({ index, item }) => {
+          console.log('item', item);
+          return <Item item={item} index={index} />;
+        }}
+        renderSectionHeader={({ section }) => {
+          console.log('section', section);
+          return <Text style={styles.exercise}>{section.exersice}</Text>;
+        }}
+        keyExtractor={(item, index) => index.toString()}
       />
     </View>
   );
 }
-const Item = ({ exersicesArray, index }) => (
+const Item = ({ item, index }) => (
   <View style={styles.exerciseItem}>
-    <Text style={styles.exercise}>{exersicesArray[index].exersice}</Text>
+    {/* <Text style={styles.exercise}>{exersices.exersice}</Text> */}
     {/* {exersicesArray.map(
       (element, value) => {
         console.log('el', { value });
       } */}
 
-    <Button title="emil" onPress={() => console.log(index)} />
-    <RenderUsers exersicesArray={exersicesArray} index={index} />
-    {/* <RenderUsers exersicesArray={exersicesArray} index={index} /> */}
+    {/* <Button title="emil" onPress={() => console.log(index)} /> */}
+    <RenderUsers item={item} index={index} />
   </View>
 );
 
-const RenderUsers = ({ exersicesArray, index }) => {
+const RenderUsers = ({ item, index }) => {
   return (
     <View style={styles.setsAndReps}>
       <View style={styles.users}>
@@ -76,21 +78,21 @@ const RenderUsers = ({ exersicesArray, index }) => {
         >
           <View style={styles.checkBox}></View>
 
-          <Text>{exersicesArray[index].users[index].user}</Text>
+          <Text style={{ marginLeft: 8 }}>{item.user}</Text>
         </View>
       </View>
       <View style={{ flexDirection: 'row' }}>
         <NegativSignView />
         <View>
           <Text>sets</Text>
-          <Text>3/{exersicesArray[index].users[index].sets}</Text>
+          <Text>3/{item.reps}</Text>
         </View>
         <PlusSignView />
         <View style={{ flexDirection: 'row' }}>
           <NegativSignView />
           <View>
             <Text>reps</Text>
-            <Text>3/{exersicesArray[index].users[index].reps}</Text>
+            <Text>3/{item.reps}</Text>
           </View>
           <PlusSignView />
         </View>
@@ -128,7 +130,7 @@ const NegativSignView = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'yellow',
+    backgroundColor: '#3F7134',
     alignItems: 'center',
     justifyContent: 'center',
   },

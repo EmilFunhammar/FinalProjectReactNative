@@ -28,15 +28,20 @@ const EnterNameModal = ({
   modalVisible,
   setModalVisible,
   //exersicesArray,
-  workoutId,
+  //workoutId,
   workoutTitle,
 }) => {
   //const [workoutName, setWorkoutName] = useState('');
   const [exersicesArray, setExersicesArray] = useState([]);
   const { user } = useContext(AuthContext);
   const navigation = useNavigation();
+  console.log(workoutId);
   //const { user } = useContext(AuthContext);
   //console.log(workoutTitle);
+  //GetUserWorkout(workoutId, user.uid, setExersicesArray);
+  useEffect(() => {
+    GetUserWorkout(workoutId, user.uid, setExersicesArray);
+  }, []);
   const [kod, setkod] = useState('');
   return (
     <Modal
@@ -48,7 +53,6 @@ const EnterNameModal = ({
       }}
     >
       <View style={styles.modal}>
-        {/* <Text>{workoutTitle}</Text> */}
         <TextInput
           placeholder="ange kod:"
           onChangeText={(text) => setkod(text)}
@@ -58,15 +62,14 @@ const EnterNameModal = ({
           title="använd Tränings Pass"
           onLongPress={() => console.log('här', exersicesArray)}
           onPress={() => {
-            GetUserWorkout(workoutId, user.uid, setExersicesArray);
-            setTimeout(() => {
-              console.log('exersice array', exersicesArray);
-              //AddWorkoutSession(user.email, kod, exersicesArray);
-              //setModalVisible(false);
-            }, 5000);
-            setTimeout(() => {
-              //navigation.navigate('start_workout');
-            }, 4000);
+            // här är det knas
+            console.log('work id', workoutId);
+            //console.log('work id', workoutTitle);
+            //GetUserWorkout(workoutId, user.uid, setExersicesArray);
+            //console.log('exer', exersicesArray);
+            //AddWorkoutSession(user.email, kod, exersicesArray);
+            setModalVisible(false);
+            //navigation.navigate('start_workout', { accses: kod });
           }}
         />
       </View>
@@ -76,25 +79,60 @@ const EnterNameModal = ({
 
 const WorkoutItem = ({ modalVisible, setModalVisible, itemTitle, itemId }) => {
   const { user } = useContext(AuthContext);
-  //const [exersicesArray, setExersicesArray] = useState([]);
+  const [ary, setAry] = useState();
+  const ary1 = [];
+  const [exersicesArray, setExersicesArray] = useState([]);
+  const navigation = useNavigation();
 
-  //useEffect(() => {});
+  const [kod, setkod] = useState('');
 
   return (
     <TouchableOpacity
-      onLongPress={() => {}}
+      onLongPress={() => {
+        GetUserWorkout(itemId, user.uid, setExersicesArray, exersicesArray);
+        console.log('här', itemId);
+        setkod(itemId);
+      }}
       onPress={() => {
+        console.log('text1', kod);
+        console.log('ary', exersicesArray);
+        AddWorkoutSession(user.email, itemId, exersicesArray);
         setModalVisible(true);
-        // GetUserWorkout(itemId, user.uid, setExersicesArray);
       }}
     >
-      <EnterNameModal
+      {/* <EnterNameModal
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
         //exersicesArray={exersicesArray}
-        workoutId={itemId}
+        //workoutId={itemId}
         workoutTitle={itemTitle}
-      />
+      /> */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+        }}
+      >
+        <View style={styles.modal}>
+          {/* <TextInput
+            placeholder="ange kod:"
+            onChangeText={(text) => setkod(text)}
+          /> */}
+          <Text>Tränings kod</Text>
+          <Text>{kod}</Text>
+
+          <Button
+            title="Gå vidare till träning"
+            onPress={() => {
+              console.log('text ny', kod);
+              setModalVisible(false);
+              navigation.navigate('start_workout', { accses: kod });
+            }}
+          />
+        </View>
+      </Modal>
       <View style={styles.workout_item}>
         <Text style={styles.workout_item_text}>{itemTitle}</Text>
       </View>
@@ -102,10 +140,12 @@ const WorkoutItem = ({ modalVisible, setModalVisible, itemTitle, itemId }) => {
   );
 };
 
-export default function Workout() {
+export default function Workout({ kod }) {
   const { user } = useContext(AuthContext);
   const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
+  const [enterWorkoutCode, setEnterWorkoutKode] = useState('');
+  const [anotherModal, setAnotherModal] = useState(false);
 
   // const loadData = async () => {
   //   await GetUserWorkouts(user.uid, setUserWorkoutsArray);
@@ -149,13 +189,39 @@ export default function Workout() {
         />
         <Button
           title="Abslut till träning"
-          onPress={() => navigation.navigate('start_workout')}
+          onPress={() => setAnotherModal(true)}
+
+          //onPress={() => navigation.navigate('start_workout', { accses: kod })}
         />
         <Button
           title="skapa Träning"
           onPress={() => navigation.navigate('Create_Workout')}
         />
       </View>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={anotherModal}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+        }}
+      >
+        <View style={styles.modal}>
+          <TextInput
+            placeholder="Ange tränings kod"
+            onChangeText={(text) => setEnterWorkoutKode(text)}
+          />
+          <Button
+            title="Anslut till träning "
+            onPress={() => {
+              navigation.navigate('start_workout', {
+                accses: enterWorkoutCode,
+              });
+              setAnotherModal(false);
+            }}
+          />
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }
