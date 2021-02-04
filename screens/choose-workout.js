@@ -24,58 +24,58 @@ import {
 } from '../Context/FIrebaseContext';
 import { TextInput } from 'react-native-gesture-handler';
 
-const EnterNameModal = ({
-  modalVisible,
-  setModalVisible,
-  //exersicesArray,
-  //workoutId,
-  workoutTitle,
-}) => {
-  //const [workoutName, setWorkoutName] = useState('');
-  const [exersicesArray, setExersicesArray] = useState([]);
-  const { user } = useContext(AuthContext);
-  const navigation = useNavigation();
-  console.log(workoutId);
-  //const { user } = useContext(AuthContext);
-  //console.log(workoutTitle);
-  //GetUserWorkout(workoutId, user.uid, setExersicesArray);
-  useEffect(() => {
-    GetUserWorkout(workoutId, user.uid, setExersicesArray);
-  }, []);
-  const [kod, setkod] = useState('');
-  return (
-    <Modal
-      animationType="slide"
-      transparent={true}
-      visible={modalVisible}
-      onRequestClose={() => {
-        Alert.alert('Modal has been closed.');
-      }}
-    >
-      <View style={styles.modal}>
-        <TextInput
-          placeholder="ange kod:"
-          onChangeText={(text) => setkod(text)}
-        />
+// const EnterNameModal = ({
+//   modalVisible,
+//   setModalVisible,
+//   //exersicesArray,
+//   //workoutId,
+//   workoutTitle,
+// }) => {
+//   //const [workoutName, setWorkoutName] = useState('');
+//   const [exersicesArray, setExersicesArray] = useState([]);
+//   const { user } = useContext(AuthContext);
+//   const navigation = useNavigation();
+//   console.log(workoutId);
+//   //const { user } = useContext(AuthContext);
+//   //console.log(workoutTitle);
+//   //GetUserWorkout(workoutId, user.uid, setExersicesArray);
+//   useEffect(() => {
+//     GetUserWorkout(workoutId, user.uid, setExersicesArray);
+//   }, []);
+//   const [kod, setkod] = useState('');
+//   return (
+//     <Modal
+//       animationType="slide"
+//       transparent={true}
+//       visible={modalVisible}
+//       onRequestClose={() => {
+//         Alert.alert('Modal has been closed.');
+//       }}
+//     >
+//       <View style={styles.modal}>
+//         <TextInput
+//           placeholder="ange kod:"
+//           onChangeText={(text) => setkod(text)}
+//         />
 
-        <Button
-          title="använd Tränings Pass"
-          onLongPress={() => console.log('här', exersicesArray)}
-          onPress={() => {
-            // här är det knas
-            console.log('work id', workoutId);
-            //console.log('work id', workoutTitle);
-            //GetUserWorkout(workoutId, user.uid, setExersicesArray);
-            //console.log('exer', exersicesArray);
-            //AddWorkoutSession(user.email, kod, exersicesArray);
-            setModalVisible(false);
-            //navigation.navigate('start_workout', { accses: kod });
-          }}
-        />
-      </View>
-    </Modal>
-  );
-};
+//         <Button
+//           title="använd Tränings Pass"
+//           onLongPress={() => console.log('här', exersicesArray)}
+//           onPress={() => {
+//             // här är det knas
+//             console.log('work id', workoutId);
+//             //console.log('work id', workoutTitle);
+//             //GetUserWorkout(workoutId, user.uid, setExersicesArray);
+//             //console.log('exer', exersicesArray);
+//             //AddWorkoutSession(user.email, kod, exersicesArray);
+//             setModalVisible(false);
+//             //navigation.navigate('start_workout', { accses: kod });
+//           }}
+//         />
+//       </View>
+//     </Modal>
+//   );
+// };
 
 const WorkoutItem = ({ modalVisible, setModalVisible, itemTitle, itemId }) => {
   const { user } = useContext(AuthContext);

@@ -237,7 +237,7 @@ const WorkOutFlatList = () => {
         <Button
           title="add WorkOut"
           onPress={() => {
-            console.log('add Workout');
+            console.log('add Workout121');
             //SaveUserWorkOut(user.uid, workOutItem);
             setModalVisible(true);
             //console.log('emil');

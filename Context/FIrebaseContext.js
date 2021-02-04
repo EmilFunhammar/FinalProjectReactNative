@@ -204,18 +204,9 @@ export function GetUserWorkout(workoutId, userId, setExersicesArray, ary) {
         };
         //console.log('inne i', OneExerscise);
         exersicesArray.push(OneExerscise);
-        //console.log('ex1', exersicesArray);
-
-        // console.log('ex2', ary);
       });
 
-      //setExersicesArray(OneExerscise);
-      //return exersicesArray;
       setExersicesArray(exersicesArray);
-
-      //console.log('emil', exersicesArray);
-      //setExersicesArray(exersicesArray);
-      //console.log('ary i firebase', ary);
     })
     .catch(function (error) {
       console.log('Error getting document:', error);
