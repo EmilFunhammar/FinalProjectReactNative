@@ -1,12 +1,12 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { View, Text, StyleSheet, Button, SectionList } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, SectionList } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { AuthContext } from '../Context/AuthContext';
+//import { AuthContext } from '../Context/AuthContext';
 import { ListenToTheWorkout2, ChangeFinish } from '../Context/FIrebaseContext';
 
 export default function WorkoutSession1({ route }) {
-  const { user } = useContext(AuthContext);
-  const { accses } = route.params;
+  //const { user } = useContext(AuthContext);
+  //const { accses } = route.params;
 
   const [exersicesArray, setExersicesArray] = useState([]);
 

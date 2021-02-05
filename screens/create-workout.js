@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 //import { set } from 'react-native-reanimated';
-import { useState, useContext, useEffect } from 'react/cjs/react.development';
+import { useState, useContext } from 'react/cjs/react.development';
 import { SaveUserWorkOut } from '../Context/FIrebaseContext';
 import { AuthContext } from '../Context/AuthContext';
 import { useNavigation } from '@react-navigation/native';
@@ -153,8 +153,8 @@ const CreateWorkoutItem = ({
 };
 
 const WorkOutFlatList = () => {
-  const { user } = useContext(AuthContext);
-  const navigation = useNavigation();
+  //const { user } = useContext(AuthContext);
+  //const navigation = useNavigation();
 
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -274,6 +274,7 @@ const EnterNameModal = ({ modalVisible, setModalVisible, workOutItem }) => {
         <Button
           title="Add workout"
           onPress={() => {
+            console.log('pressed');
             SaveUserWorkOut(user.uid, workOutItem, workoutName);
             setModalVisible(false);
             navigation.navigate('Choose_Workout');

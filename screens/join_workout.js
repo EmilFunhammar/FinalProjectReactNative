@@ -1,15 +1,12 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, { useState, useContext } from 'react';
+import React from 'react';
 //import { AuthContext } from '../Context/AuthContext';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
-//import { useNavigation } from '@react-navigation/native';
-//import { AddUserToWorkout } from '../Context/FIrebaseContext';
+
 export default function joinWorkot() {
-  //const { user } = useContext(AuthContext);
-  // const navigation = useNavigation();
   let workoutCode = '';
-  //YMOa4tregVEiNFbGp5d5
+
   return (
     <View style={styles.container}>
       <View>

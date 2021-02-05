@@ -21,16 +21,6 @@ export default function AuthContextProvider({ children }) {
     return console.log('auth: ', user.uid);
   }
 
-  // function writeUserData(userId, name, email, imageUrl) {
-  //   firebase
-  //     .database()
-  //     .ref('users/' + userId)
-  //     .set({
-  //       username: name,
-  //       email: email,
-  //     });
-  // }
-
   const createUser = async (email, password) => {
     try {
       await auth.createUserWithEmailAndPassword(email, password);

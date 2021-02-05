@@ -20,6 +20,7 @@ export default function StartWorkout({ route }) {
   useEffect(() => {
     AddUserToWorkout(accses, user.email);
     ListenToTheWorkout('skräp', accses, setUserArray);
+    //?
   }, []);
   const { user } = useContext(AuthContext);
 
@@ -27,15 +28,6 @@ export default function StartWorkout({ route }) {
     <View style={styles.container}>
       <View>
         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-          {/* <Text
-            style={{
-              fontWeight: 'bold',
-              fontSize: 50,
-              marginLeft: 10,
-            }}
-          >
-            {accses}
-          </Text> */}
           <Modal
             animationType="slide"
             transparent={false}

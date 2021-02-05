@@ -12,14 +12,6 @@ const firebaseConfig = {
   storageBucket: 'newfinal-project.appspot.com',
   messagingSenderId: '686815357216',
   appId: '1:686815357216:web:5ae92386bee09e12df0f45',
-
-  // apiKey: 'AIzaSyAKPL25brdEyVf1QxIEgIaAnwSpgthhoyQ',
-  // authDomain: 'reactnativefinalprojectgymapp.firebaseapp.com',
-  // databaseURL: 'https:ReactNativeFinalProjectGymApp.firebaseio.com',
-  // projectId: 'reactnativefinalprojectgymapp',
-  // storageBucket: 'reactnativefinalprojectgymapp.appspot.com',
-  // messagingSenderId: '710813520216',
-  // appId: '1:710813520216:web:c2a2499d2b292797d6152d',
 };
 
 if (!firebase.apps.length) {
@@ -193,26 +185,6 @@ export function GetUserWorkouts(userId, setUserWorkoutsArray) {
       setUserWorkoutsArray(WorkoutArray);
     });
 }
-// export function ChangeFinish() {
-//   let ref = firebase
-//     .firestore()
-//     .collection('WorkoutSession')
-//     .doc('Ida')
-//     .collection('Exersices')
-//     .doc('amsQiDuPK01v3AsY6QtB');
-//ref.set({ users: firebase.firestore.FieldValue.arrayUnion('finish') });
-// firebase
-//   .firestore()
-//   .collection('UserWorkouts')
-//   .doc('Ida')
-//   .collection('Workouts')
-//   .doc('amsQiDuPK01v3AsY6QtB')
-//   .set({users.})
-//   .then(function () {
-//     console.log('Document successfully written!');
-//   })
-//   .catch((error) => console.log('error', error));
-//}
 
 export function SaveUser(userId, name, email) {
   console.log('inne i Test', name, email, userId);
