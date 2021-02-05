@@ -1,46 +1,27 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { View, Text, StyleSheet, Button, SectionList } from 'react-native';
-import { FlatList } from 'react-native-gesture-handler';
-import { Auth, AuthContext } from '../Context/AuthContext';
-import {
-  SaveUser,
-  SaveUserWorkOut,
-  GetUserWorkouts,
-  GetOneUserWorkout,
-  WorkoutSession,
-  ListenToTheWorkout2,
-  ListenToTheWorkout1,
-} from '../Context/FIrebaseContext';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { AuthContext } from '../Context/AuthContext';
+import { ListenToTheWorkout2, ChangeFinish } from '../Context/FIrebaseContext';
 
-export default function WorkoutSession1({ route, navigation }) {
+export default function WorkoutSession1({ route }) {
   const { user } = useContext(AuthContext);
   const { accses } = route.params;
-
-  //const [array, setArray] = useState(data);
 
   const [exersicesArray, setExersicesArray] = useState([]);
 
   useEffect(() => {
-    //
-    //
-    //
-    //
     // accses
     ListenToTheWorkout2('Ida', setExersicesArray);
   }, []);
   return (
     <View style={styles.container}>
-      {/* <Button
-        title="read"
-        onPress={() => ListenToTheWorkout2('Ida', setExersicesArray)}
-      /> */}
-
       <SectionList
         style={{ width: '100%' }}
         //sections={[{ exercise: 'TYP AV meil ÖVNING', data: exersicesArray }]}
         sections={exersicesArray}
         renderItem={({ index, item }) => {
-          console.log('item', item);
+          console.log('item emil', item);
           return <Item item={item} index={index} />;
         }}
         renderSectionHeader={({ section }) => {
@@ -54,41 +35,42 @@ export default function WorkoutSession1({ route, navigation }) {
 }
 const Item = ({ item, index }) => (
   <View style={styles.exerciseItem}>
-    {/* <Text style={styles.exercise}>{exersices.exersice}</Text> */}
-    {/* {exersicesArray.map(
-      (element, value) => {
-        console.log('el', { value });
-      } */}
-
-    {/* <Button title="emil" onPress={() => console.log(index)} /> */}
     <RenderUsers item={item} index={index} />
   </View>
 );
 
 const RenderUsers = ({ item, index }) => {
+  console.log('finish', item.finish);
+  let value = item.finish;
   return (
     <View style={styles.setsAndReps}>
       <View style={styles.users}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <View style={styles.checkBox}></View>
-
+        <View style={styles.user_name_view}>
+          <TouchableOpacity
+            onPress={() => {
+              //ChangeFinish();
+              console.log('change');
+            }}
+          >
+            <View
+              // eslint-disable-next-line react-native/no-inline-styles
+              style={{
+                ...styles.checkBox,
+                backgroundColor: value ? 'green' : 'red',
+              }}
+            />
+          </TouchableOpacity>
           <Text style={{ marginLeft: 8 }}>{item.user}</Text>
         </View>
       </View>
-      <View style={{ flexDirection: 'row' }}>
+      <View style={styles.flexDirection_row}>
         <NegativSignView />
         <View>
           <Text>sets</Text>
           <Text>3/{item.reps}</Text>
         </View>
         <PlusSignView />
-        <View style={{ flexDirection: 'row' }}>
+        <View style={styles.flexDirection_row}>
           <NegativSignView />
           <View>
             <Text>reps</Text>
@@ -134,6 +116,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  flexDirection_row: {
+    flexDirection: 'row',
+  },
   exerciseItem: {
     backgroundColor: '#3F7134',
     marginLeft: 10,
@@ -172,10 +157,15 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   checkBox: {
-    backgroundColor: 'red',
+    backgroundColor: 'yellow',
     height: 20,
     width: 20,
     borderRadius: 20,
     marginLeft: 5,
+  },
+  user_name_view: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

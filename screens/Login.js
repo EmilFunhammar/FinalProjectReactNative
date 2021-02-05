@@ -24,12 +24,7 @@ export default function LoginScreen() {
           placeholder="Enter email"
           value={email}
           onChangeText={setEmail}
-          style={{
-            backgroundColor: 'lightgrey',
-            padding: 10,
-            borderRadius: 5,
-            marginBottom: 10,
-          }}
+          style={styles.textInput}
         />
         <Text style={{ fontWeight: '600', fontSize: 16 }}>Password</Text>
         <TextInput
@@ -55,6 +50,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'lightgrey',
     padding: 10,
     borderRadius: 5,
+    marginBottom: 10,
   },
   loginText: {
     fontWeight: 'bold',

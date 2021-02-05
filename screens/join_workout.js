@@ -1,12 +1,13 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, { useState, useContext } from 'react';
-import { AuthContext } from '../Context/AuthContext';
+//import { AuthContext } from '../Context/AuthContext';
 import { View, Text, Button, StyleSheet } from 'react-native';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
-import { useNavigation } from '@react-navigation/native';
-import { AddUserToWorkout } from '../Context/FIrebaseContext';
+//import { useNavigation } from '@react-navigation/native';
+//import { AddUserToWorkout } from '../Context/FIrebaseContext';
 export default function joinWorkot() {
-  const { user } = useContext(AuthContext);
-  const navigation = useNavigation();
+  //const { user } = useContext(AuthContext);
+  // const navigation = useNavigation();
   let workoutCode = '';
   //YMOa4tregVEiNFbGp5d5
   return (
@@ -24,12 +25,13 @@ export default function joinWorkot() {
           </Text>
         </View>
         {/* <Text style={styles.participant_text}>Participant:</Text> */}
-        <View style={styles.participant_view}></View>
+        <View style={styles.participant_view} />
       </View>
       <View style={styles.buttons_view}>
         <TextInput
           style={styles.textinput}
           placeholder="Workout code"
+          // eslint-disable-next-line no-unused-vars
           onChangeText={(text) => (workoutCode = text)}
         />
 
@@ -61,7 +63,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'yellow',
     justifyContent: 'space-between',
-    backgroundColor: 'white',
   },
   buttons: {
     elevation: 8,

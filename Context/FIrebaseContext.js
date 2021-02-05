@@ -4,7 +4,6 @@ import 'firebase/database';
 import 'firebase/firestore';
 import 'firebase/functions';
 import 'firebase/storage';
-import { set } from 'react-native-reanimated';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBuypY79KmAfSyx-LA19KBBMryP8oN5z3A',
@@ -38,26 +37,6 @@ export function ListenToTheWorkout(garbage, workoutId, setArray) {
     .onSnapshot((doc) => {
       setArray(doc.data().users);
     });
-
-  //firebase
-  //     .firestore()
-  //     .collection('WorkoutSession')
-  //     .onSnapshot((snapshot) => {
-  //       var users = { user1: snapshot.docs.map((doc) => doc.data().user1) };
-  //       //setUserArray(snapshot.docs.map((doc) => doc.data().user1))
-  //       setUserArray(users);
-  //     });
-  // {
-  //   // Listen for document metadata changes
-  //   includeMetadataChanges: true,
-  // },
-  //function (doc) {
-  //var user = [doc.data().user1, doc.data().user2, doc.data().user3];
-  // var user = {
-  //   user1: doc.data().user1,
-  //   user2: doc.data().user2,
-  //   user3: doc.data().user3,
-  // };
 }
 export function ListenToTheWorkout2(workoutId, setArray) {
   firebase
@@ -83,24 +62,6 @@ export function ListenToTheWorkout2(workoutId, setArray) {
       setArray(cities);
     });
 }
-
-//.onSnapshot(function (doc) {
-//console.log('Current data: ', doc.data().user1);
-// var user = {
-//   user1: doc.data().user1,
-//   user2: doc.data().user2,
-//   user3: doc.data().user3,
-// };
-// var user = [doc.data().user1, doc.data().user2, doc.data().user3];
-// console.log('users', user);
-// users.push(user);
-//console.log('userArray', users);
-//setArray(userArray);
-//});
-//console.log('userArray', array);
-//console.log('userArray4', users);
-//setArray(users);
-//}
 
 export function ListenToTheWorkout1(workoutId, setArray) {
   let array = [];
@@ -231,68 +192,27 @@ export function GetUserWorkouts(userId, setUserWorkoutsArray) {
       //console.log('WorkoutArray1', WorkoutArray);
       setUserWorkoutsArray(WorkoutArray);
     });
-
-  // doc.data() is never undefined for query doc snapshots
-  //console.log('doc', doc.data().workoutName);
-
-  //console.log('userarray', WorkoutArray);
-  // console.log('userWorkoutArray', UserWorkoutArray);
-  // varja doc.data.Ex name till varja itemi flatlist
-  //console.log(doc.id, ' => ', doc.data());
-
-  //return UserWorkoutsArray;
-  //.then(function (querySnapshot) {
-  //console.log('query', querySnapshot);
-  //querySnapshot.forEach((doc) => console.log(doc.id, ' => ', doc.data()));
-  // querySnapshot.forEach(function (doc) {
-  //   // doc.data() is never undefined for query doc snapshots
-  //   console.log(doc.id, ' => ', doc.data());
-  // });
-  //})
-  // .catch(function (error) {
-  //   console.log('Error getting document:', error);
-  // });
-
-  // .doc('r037kqjhiA9WcCJ1q0t1')
-  // .collection('Excercises')
-  // .doc('pmy65iGueYYiZJg6ZZCB')
-  // .get()
-  // .then(function (doc) {
-  //   if (doc.exists) {
-  //     console.log('Document data:', doc.data());
-  //   } else {
-  //     // doc.data() will be undefined in this case
-  //     console.log('No such document!');
-  //   }
-  // })
-  // .catch(function (error) {
-  //   console.log('Error getting document:', error);
-  // });
 }
-
-// export function GetOneUserWorkout(userId, workoutName) {
-//   console.log('Name', workoutName);
-//   firebase
+// export function ChangeFinish() {
+//   let ref = firebase
 //     .firestore()
-//     .collection('UserWorkouts')
-//     .doc(userId)
-//     .collection('Workouts')
-//     .doc(workoutName)
-//     .collection('Excercises')
-//     .doc('yZ9jWVfOCQXhYO5avZax')
-//     .get()
-//     .then(function (doc) {
-//       if (doc.exists) {
-//         // console.log('Document data:', doc.data());
-//       } else {
-//         // doc.data() will be undefined in this case
-//         console.log('No such document!');
-//       }
-//     })
-//     .catch(function (error) {
-//       console.log('Error getting document:', error);
-//     });
-// }
+//     .collection('WorkoutSession')
+//     .doc('Ida')
+//     .collection('Exersices')
+//     .doc('amsQiDuPK01v3AsY6QtB');
+//ref.set({ users: firebase.firestore.FieldValue.arrayUnion('finish') });
+// firebase
+//   .firestore()
+//   .collection('UserWorkouts')
+//   .doc('Ida')
+//   .collection('Workouts')
+//   .doc('amsQiDuPK01v3AsY6QtB')
+//   .set({users.})
+//   .then(function () {
+//     console.log('Document successfully written!');
+//   })
+//   .catch((error) => console.log('error', error));
+//}
 
 export function SaveUser(userId, name, email) {
   console.log('inne i Test', name, email, userId);

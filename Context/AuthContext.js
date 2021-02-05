@@ -1,6 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { auth } from '../Context/FIrebaseContext';
-import { db } from '../firebase';
 
 export const AuthContext = createContext();
 
@@ -22,15 +21,15 @@ export default function AuthContextProvider({ children }) {
     return console.log('auth: ', user.uid);
   }
 
-  function writeUserData(userId, name, email, imageUrl) {
-    firebase
-      .database()
-      .ref('users/' + userId)
-      .set({
-        username: name,
-        email: email,
-      });
-  }
+  // function writeUserData(userId, name, email, imageUrl) {
+  //   firebase
+  //     .database()
+  //     .ref('users/' + userId)
+  //     .set({
+  //       username: name,
+  //       email: email,
+  //     });
+  // }
 
   const createUser = async (email, password) => {
     try {

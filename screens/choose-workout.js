@@ -79,12 +79,12 @@ import { TextInput } from 'react-native-gesture-handler';
 
 const WorkoutItem = ({ modalVisible, setModalVisible, itemTitle, itemId }) => {
   const { user } = useContext(AuthContext);
-  const [ary, setAry] = useState();
-  const ary1 = [];
+  //const [ary, setAry] = useState();
+  //const ary1 = [];
   const [exersicesArray, setExersicesArray] = useState([]);
   const navigation = useNavigation();
 
-  const [kod, setkod] = useState('');
+  const [kod, setkod] = useState();
 
   return (
     <TouchableOpacity
@@ -116,13 +116,8 @@ const WorkoutItem = ({ modalVisible, setModalVisible, itemTitle, itemId }) => {
         }}
       >
         <View style={styles.modal}>
-          {/* <TextInput
-            placeholder="ange kod:"
-            onChangeText={(text) => setkod(text)}
-          /> */}
           <Text>Tränings kod</Text>
           <Text>{kod}</Text>
-
           <Button
             title="Gå vidare till träning"
             onPress={() => {
@@ -171,15 +166,7 @@ export default function Workout({ kod }) {
             />
           )}
           ItemSeparatorComponent={() => {
-            return (
-              <View
-                style={{
-                  backgroundColor: 'transparent',
-                  width: '100%',
-                  height: 30,
-                }}
-              />
-            );
+            return <View style={styles.item_separator} />;
           }}
           keyExtractor={(item, index) => index.toString()}
         />
@@ -277,5 +264,10 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  item_separator: {
+    backgroundColor: 'transparent',
+    width: '100%',
+    height: 30,
   },
 });

@@ -3,13 +3,12 @@ import { AuthContext } from '../Context/AuthContext';
 import { View, Text, Button, StyleSheet, Modal } from 'react-native';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
-import { unstable_renderSubtreeIntoContainer } from 'react-dom';
+//import { unstable_renderSubtreeIntoContainer } from 'react-dom';
 import {
   ListenToTheWorkout,
   AddUserToWorkout,
 } from '../Context/FIrebaseContext';
 import { useEffect } from 'react';
-import firebase, { firestore } from 'firebase';
 
 export default function StartWorkout({ route }) {
   const [userArray, setUserArray] = useState([]);
@@ -106,7 +105,7 @@ const ParticipantView = ({ element }) => {
   return (
     <>
       <Text style={styles.participant_text}>{element}</Text>
-      <View style={styles.line_view}></View>
+      <View style={styles.line_view} />
     </>
   );
 };

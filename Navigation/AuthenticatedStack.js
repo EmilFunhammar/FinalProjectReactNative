@@ -3,11 +3,11 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Workout from '../screens/choose-workout';
 import Create_Workout from '../screens/create-workout';
-import Utveckling from '../screens/utveckling';
+//import Utveckling from '../screens/utveckling';
 import WorkoutSession from '../screens/workout-session';
 import StartWorkout from '../screens/start_workout_session';
-import joinWorkot from '../screens/join_workout';
-import SharedScreen from '../screens/shared_screen';
+//import joinWorkot from '../screens/join_workout';
+//import SharedScreen from '../screens/shared_screen';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
